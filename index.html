@@ -20,6 +20,7 @@
 
             --status-upcoming: #f39c12;
             --status-completed: #27ae60;
+            --status-ongoing: #8e44ad; /* New Color for On Going */
             --status-ended: #c0392b;
             --status-available: #2980b9;
         }
@@ -69,6 +70,50 @@
         body.logged-in .auth-header {
             display: none;
         }
+
+        /* --- LOGIN ANIMATION OVERLAY --- */
+        #login-animation {
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+        }
+
+        #login-animation .spinner {
+            width: 80px; 
+            height: 80px;
+            border: 6px solid rgba(255, 87, 34, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
+        }
+
+        #login-animation h2 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 15px var(--primary-glow);
+            animation: pulseText 1.5s infinite;
+            text-align: center;
+        }
+
+        @keyframes pulseText { 
+            0%, 100% { opacity: 1; transform: scale(1); } 
+            50% { opacity: 0.6; transform: scale(0.98); } 
+        }
+        /* -------------------------------- */
 
         #live-bg {
             position: fixed;
@@ -318,6 +363,7 @@
         }
 
         .bg-upcoming { background: var(--status-upcoming); }
+        .bg-ongoing { background: var(--status-ongoing); } /* Bound to new Status */
         .bg-completed { background: var(--status-completed); }
         .bg-ended { background: var(--status-ended); }
         .bg-available { background: var(--status-available); }
@@ -670,6 +716,12 @@
 
 <body>
 
+    <!-- STARTING ANIMATION SCREEN -->
+    <div id="login-animation">
+        <div class="spinner"></div>
+        <h2 id="login-welcome-text">AUTHENTICATING...</h2>
+    </div>
+
     <canvas id="live-bg"></canvas>
 
     <header>
@@ -725,7 +777,6 @@
                 <p style="color: #bbb; margin-bottom: 30px;">Authenticate quickly and securely using your Google Account.</p>
                 
                 <div class="google-btn-container">
-                    <!-- FIREBASE CUSTOM LOGIN BUTTON -->
                     <button id="googleSignInBtn" class="start-btn" style="width: 100%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <i class="fa-brands fa-google"></i> SIGN IN
                     </button>
@@ -807,7 +858,7 @@
                         <select id="scrimStatus">
                             <option value="Upcoming">Status: Upcoming</option>
                             <option value="Completed">Status: Completed</option>
-                            <option value="Ended">Status: Ended</option>
+                            <option value="On Going">Status: On Going</option> <!-- Changed from Ended to On Going -->
                         </select>
                         <button class="action-btn" data-type="scrim">PUBLISH SCRIM</button>
                     </div>
@@ -819,7 +870,7 @@
                         <select id="tourStatus">
                             <option value="Upcoming">Status: Upcoming</option>
                             <option value="Completed">Status: Completed</option>
-                            <option value="Ended">Status: Ended</option>
+                            <option value="On Going">Status: On Going</option> <!-- Changed from Ended to On Going -->
                         </select>
                         <button class="action-btn" data-type="tour">PUBLISH TOUR</button>
                     </div>
@@ -840,6 +891,14 @@
                         <textarea id="infoText" placeholder="New announcement text or rules..."></textarea>
                         <button id="updateInfoBtn">UPDATE INFO</button>
                     </div>
+
+                    <!-- NEW: Update WhatsApp Number Section -->
+                    <div class="admin-form-box">
+                        <h4>Update WhatsApp Number</h4>
+                        <input type="text" id="waNumberInput" placeholder="e.g. 923272475737 (No '+' sign)">
+                        <button id="updateWABtn">UPDATE NUMBER</button>
+                        <p style="margin-top:10px; font-size:0.9rem; color:#aaa;">Changes update the join buttons immediately.</p>
+                    </div>
                 </div>
 
                 <div class="admin-management-container">
@@ -859,8 +918,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
           apiKey: "AIzaSyCtKY5fH-XYXXeTOn9WpuFvrs73doplduQ",
           authDomain: "ashes-of-war-d3b67.firebaseapp.com",
@@ -871,18 +930,25 @@
           measurementId: "G-Q98WLK7191"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
+        const db = getFirestore(app);
+
+        // Global Variable for dynamic WhatsApp number
+        let globalWhatsAppNumber = "923272475737";
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            let siteEntries = JSON.parse(localStorage.getItem('ashes_entries')) || [];
+            let siteEntries = [];
 
-            function saveEntries() {
-                localStorage.setItem('ashes_entries', JSON.stringify(siteEntries));
-            }
+            onSnapshot(collection(db, 'entries'), (snapshot) => {
+                siteEntries = [];
+                snapshot.forEach((doc) => {
+                    siteEntries.push({ id: doc.id, ...doc.data() });
+                });
+                renderAllEntries();
+            });
 
             function renderAllEntries() {
                 document.getElementById('scrims-list').innerHTML = '';
@@ -891,19 +957,22 @@
                 document.getElementById('admin-manage-list').innerHTML = '';
 
                 siteEntries.forEach(entry => {
+                    // This creates classes like 'bg-upcoming', 'bg-ongoing', etc.
                     const bgClass = 'bg-' + entry.status.toLowerCase().replace(' ', '');
                     const btnText = entry.type === 'id' ? 'BUY' : 'JOIN';
 
                     const newCard = document.createElement('div');
                     newCard.classList.add('gaming-card');
+                    
+                    // Insert dynamic globalWhatsAppNumber here
                     newCard.innerHTML = `
                         <span class="badge ${bgClass}">${entry.status}</span>
                         <h3>${entry.title}</h3>
                         <p>${entry.details}</p>
                         <button class="action-card-btn">${btnText}</button>
                         <div class="contact-info-box">
-                            <div class="number">+92 327 2475737</div>
-                            <a href="https://wa.me/923272475737" target="_blank" class="wa-btn">
+                            <div class="number">+${globalWhatsAppNumber}</div>
+                            <a href="https://wa.me/${globalWhatsAppNumber}" target="_blank" class="wa-btn">
                                 <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
                             </a>
                         </div>
@@ -928,7 +997,7 @@
                     else if (entry.type === 'tour') { document.getElementById('tours-list').appendChild(newCard); } 
                     else if (entry.type === 'id') { document.getElementById('ids-list').appendChild(newCard); }
 
-                    // Admin Area
+                    // Admin Area Management Row
                     const adminRow = document.createElement('div');
                     adminRow.classList.add('admin-manage-item');
                     let optionsHTML = '';
@@ -939,10 +1008,11 @@
                             <option value="Sold" ${entry.status === 'Sold' ? 'selected' : ''}>Sold</option>
                         `;
                     } else {
+                        // Replaced Ended with On Going in Dropdown
                         optionsHTML = `
                             <option value="Upcoming" ${entry.status === 'Upcoming' ? 'selected' : ''}>Upcoming</option>
                             <option value="Completed" ${entry.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                            <option value="Ended" ${entry.status === 'Ended' ? 'selected' : ''}>Ended</option>
+                            <option value="On Going" ${entry.status === 'On Going' ? 'selected' : ''}>On Going</option>
                         `;
                     }
 
@@ -957,23 +1027,27 @@
                         </div>
                     `;
 
-                    adminRow.querySelector('.status-select').addEventListener('change', e => {
-                        const targetId = parseInt(e.target.getAttribute('data-id'));
+                    adminRow.querySelector('.status-select').addEventListener('change', async (e) => {
+                        const targetId = e.target.getAttribute('data-id'); 
                         const newStatus = e.target.value;
-                        const itemIndex = siteEntries.findIndex(item => item.id === targetId);
-                        if (itemIndex > -1) {
-                            siteEntries[itemIndex].status = newStatus;
-                            saveEntries();
-                            renderAllEntries();
+                        
+                        try {
+                            await updateDoc(doc(db, 'entries', targetId), { status: newStatus });
+                        } catch (error) {
+                            console.error("Error updating status:", error);
+                            alert("Failed to update status.");
                         }
                     });
 
-                    adminRow.querySelector('.delete-db-btn').addEventListener('click', e => {
-                        const targetId = parseInt(e.target.getAttribute('data-id'));
+                    adminRow.querySelector('.delete-db-btn').addEventListener('click', async (e) => {
+                        const targetId = e.target.getAttribute('data-id');
                         if (confirm('Are you sure you want to permanently delete this entry?')) {
-                            siteEntries = siteEntries.filter(item => item.id !== targetId);
-                            saveEntries();
-                            renderAllEntries();
+                            try {
+                                await deleteDoc(doc(db, 'entries', targetId));
+                            } catch (error) {
+                                console.error("Error deleting entry:", error);
+                                alert("Failed to delete entry.");
+                            }
                         }
                     });
                     document.getElementById('admin-manage-list').appendChild(adminRow);
@@ -1010,7 +1084,7 @@
                 });
             });
 
-            // UI Updater Function (Now Uses Firebase User Object)
+            // Added Animation Logic into User UI Updater
             window.updateUserUI = function(user, isLoginAction = false, isInitialLoad = false) {
                 const authBox = document.getElementById('authBox');
                 const userProfileCard = document.getElementById('userProfileCard');
@@ -1022,12 +1096,31 @@
                     authBox.style.display = 'none';
                     userProfileCard.style.display = 'block';
 
-                    // Update DOM with Firebase user data
                     document.getElementById('profileName').innerText = user.displayName || 'Player';
                     document.getElementById('profileEmailCard').innerText = user.email;
                     document.getElementById('profilePic').src = user.photoURL || 'https://via.placeholder.com/100';
 
-                    if (isLoginAction || isInitialLoad) {
+                    // If user JUST clicked login, show animation
+                    if (isLoginAction) {
+                        document.querySelectorAll('.page-section').forEach(sec => {
+                            sec.style.display = 'none';
+                            sec.classList.remove('active');
+                        });
+                        
+                        const loginAnim = document.getElementById('login-animation');
+                        const welcomeText = document.getElementById('login-welcome-text');
+                        welcomeText.innerText = `WELCOME, ${user.displayName ? user.displayName.toUpperCase() : 'PLAYER'}`;
+                        loginAnim.style.display = 'flex'; // Trigger animation
+                        
+                        setTimeout(() => {
+                            loginAnim.style.display = 'none'; // Hide animation
+                            const intro = document.getElementById('intro');
+                            intro.style.display = 'flex';
+                            setTimeout(() => { intro.classList.add('active'); }, 10);
+                        }, 2500); // 2.5 Seconds Delay
+
+                    } else if (isInitialLoad) {
+                        // Normal page load for already logged-in users
                         document.querySelectorAll('.page-section').forEach(sec => {
                             sec.style.display = 'none';
                             sec.classList.remove('active');
@@ -1053,29 +1146,21 @@
                 }
             }
 
-            // --- FIREBASE AUTHENTICATION LOGIC ---
-
-            // Listen for login state changes (persists after refresh)
             onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    updateUserUI(user, false, true);
-                } else {
-                    updateUserUI(null, false, true);
-                }
+                if (user) { updateUserUI(user, false, true); } 
+                else { updateUserUI(null, false, true); }
             });
 
-            // Trigger Google Popup on Button Click
             document.getElementById('googleSignInBtn').addEventListener('click', () => {
                 signInWithPopup(auth, provider)
                     .then((result) => {
                         const user = result.user;
-                        updateUserUI(user, true, false);
+                        updateUserUI(user, true, false); // Triggers animation flag
                     }).catch((error) => {
                         console.error("Sign-in Error:", error);
                     });
             });
 
-            // Trigger Logout
             document.getElementById('userLogoutBtn').addEventListener('click', () => {
                 signOut(auth).then(() => {
                     updateUserUI(null, false, false);
@@ -1084,7 +1169,6 @@
                 });
             });
 
-            // Profile Modal Handlers
             const profileModal = document.getElementById('profileModal');
             const closeProfileModal = document.getElementById('closeProfileModal');
             const headerProfileIcon = document.getElementById('headerProfileIcon');
@@ -1102,7 +1186,6 @@
             closeProfileModal.addEventListener('click', () => { profileModal.style.display = 'none'; });
             window.addEventListener('click', e => { if (e.target === profileModal) profileModal.style.display = 'none'; });
 
-            // Admin Logic
             const loginBtn = document.getElementById('loginBtn');
             const actionBtns = document.querySelectorAll('.action-btn');
             const updateInfoBtn = document.getElementById('updateInfoBtn');
@@ -1119,7 +1202,7 @@
             });
 
             actionBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', async () => {
                     const type = btn.getAttribute('data-type');
                     let titleId, detailsId, statusId;
                     if (type === 'scrim') { titleId = 'scrimTitle'; detailsId = 'scrimDetails'; statusId = 'scrimStatus'; } 
@@ -1131,15 +1214,18 @@
                     const status = document.getElementById(statusId).value;
 
                     if (title === "" || details === "") { alert("Error: Please fill in all fields!"); return; }
-                    const newEntry = { id: Date.now(), type: type, title: title, details: details, status: status };
+                    
+                    const newEntry = { type: type, title: title, details: details, status: status };
 
-                    siteEntries.push(newEntry);
-                    saveEntries();
-                    renderAllEntries();
-
-                    document.getElementById(titleId).value = '';
-                    document.getElementById(detailsId).value = '';
-                    alert("Success! Entry saved to database and published.");
+                    try {
+                        await addDoc(collection(db, 'entries'), newEntry);
+                        document.getElementById(titleId).value = '';
+                        document.getElementById(detailsId).value = '';
+                        alert("Success! Entry saved to database and published.");
+                    } catch (error) {
+                        console.error("Error publishing entry:", error);
+                        alert("Failed to publish entry.");
+                    }
                 });
             });
 
@@ -1151,7 +1237,18 @@
                 alert("Success: Support Information Updated!");
             });
 
-            renderAllEntries();
+            // NEW: Listener for Dynamic WhatsApp Number Update
+            document.getElementById('updateWABtn').addEventListener('click', () => {
+                const newNum = document.getElementById('waNumberInput').value.trim();
+                if(newNum === "") { alert("Error: Enter a valid number!"); return; }
+                
+                globalWhatsAppNumber = newNum; // Update the variable
+                document.getElementById('waNumberInput').value = '';
+                
+                // Re-render the cards immediately to apply the new link
+                renderAllEntries(); 
+                alert("Success: WhatsApp Number Updated! The JOIN/BUY buttons will now redirect to the new number.");
+            });
 
             // Background Canvas
             const canvas = document.getElementById('live-bg');
