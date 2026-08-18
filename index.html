@@ -38,6 +38,7 @@
             background-attachment: fixed;
             color: var(--text-main);
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         h1, h2, h3, h4, .logo, .sidebar a, .start-btn {
@@ -149,7 +150,8 @@
             color: white; border: none; cursor: pointer; text-decoration: none;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .start-btn:hover { transform: scale(1.1); background: #ff7043; box-shadow: 0 0 25px var(--primary); }
+        .start-btn:hover:not(:disabled) { transform: scale(1.05); background: #ff7043; box-shadow: 0 0 25px var(--primary); }
+        .start-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
 
@@ -177,6 +179,9 @@
             border-radius: 4px; transition: 0.3s; text-transform: uppercase; width: 100%;
         }
         .action-card-btn:hover { background: #ff7043; box-shadow: 0 0 15px var(--primary-glow); }
+        
+        .btn-get-idp { background: #25D366 !important; }
+        .btn-get-idp:hover { background: #1ebe57 !important; box-shadow: 0 0 15px rgba(37, 211, 102, 0.6) !important; }
 
         .contact-info-box { display: none; margin-top: 15px; padding: 15px; background: rgba(0, 0, 0, 0.7); border-left: 3px solid #25D366; border-radius: 5px; text-align: center; animation: fadeIn 0.3s ease-in-out; }
         .contact-info-box .number { font-size: 1.3rem; color: white; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
@@ -195,11 +200,14 @@
         .custom-form-box { background: var(--bg-panel); padding: 25px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px;}
         .custom-form-box input, .custom-form-box textarea, .custom-form-box select { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.8); border: 1px solid #444; color: white; font-size: 1rem; font-family: 'Montserrat', sans-serif; border-radius: 4px; }
         .custom-form-box button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold; font-size: 1.2rem; border-radius: 4px; transition: 0.3s; font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
-        .custom-form-box button:hover { background: #ff7043; box-shadow: 0 0 15px var(--primary-glow); }
+        .custom-form-box button:hover:not(:disabled) { background: #ff7043; box-shadow: 0 0 15px var(--primary-glow); }
+        .custom-form-box button:disabled { opacity: 0.6; cursor: not-allowed; }
 
         /* Modal Overlay */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: var(--bg-panel); padding: 30px; border: 2px solid var(--primary); border-radius: 10px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 10px 40px rgba(255, 87, 34, 0.4); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-content { background: var(--bg-panel); padding: 30px; border: 2px solid var(--primary); border-radius: 10px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 10px 40px rgba(255, 87, 34, 0.4); transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-content h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; font-family: 'Bebas Neue', sans-serif; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #888; cursor: pointer; transition: 0.3s; }
         .close-modal:hover { color: var(--primary); }
@@ -210,18 +218,26 @@
         .admin-dashboard { display: none; }
         .admin-panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 50px; }
         .admin-management-container { background: var(--bg-panel); padding: 30px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px; }
-        .list-item-row { background: rgba(0,0,0,0.6); padding: 15px 20px; border: 1px solid #444; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; transition: 0.3s; }
+        .list-item-row { background: rgba(0,0,0,0.6); padding: 15px 20px; border: 1px solid #444; border-radius: 5px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; transition: 0.3s; }
         .list-item-row:hover { border-color: var(--primary); }
+        .row-header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; width: 100%; }
         .row-actions { display: flex; gap: 10px; align-items: center; }
         .row-actions select { padding: 8px 12px; background: #222; color: white; border: 1px solid #555; border-radius: 4px; }
-        .btn-danger { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; }
-        .btn-success { background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        .btn-danger { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+        .btn-success { background: #27ae60; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+        .btn-success:hover:not(:disabled) { background: #1ebe57; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
+        .btn-danger:hover:not(:disabled) { background: #c0392b; box-shadow: 0 0 10px rgba(231, 76, 60, 0.5); }
+        .btn-success:disabled, .btn-danger:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .idp-controls { display: flex; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary); }
+        .idp-controls input { flex: 1; padding: 8px; background: #222; color: white; border: 1px solid #555; border-radius: 4px; font-family: 'Montserrat', sans-serif;}
 
         @media(max-width: 768px) {
             #intro h1 { font-size: 5rem; }
             .sec-title { font-size: 3rem; }
-            .list-item-row { flex-direction: column; align-items: flex-start; }
+            .row-header-actions { flex-direction: column; align-items: flex-start; }
             .row-actions { width: 100%; justify-content: space-between; }
+            .idp-controls { flex-direction: column; }
         }
     </style>
 </head>
@@ -272,6 +288,21 @@
                 </div>
                 <button id="confirmRegBtn">CONFIRM & DEDUCT COINS</button>
             </div>
+        </div>
+    </div>
+
+    <!-- GET IDP Display Modal -->
+    <div class="modal-overlay" id="idpModal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close-modal" id="closeIdpModal">&times;</span>
+            <h3 style="color: #25D366; font-size: 3rem; text-shadow: 0 0 10px rgba(37,211,102,0.4);">ROOM DETAILS</h3>
+            <div style="background: rgba(0,0,0,0.6); padding: 20px; border: 1px solid var(--primary); border-radius: 5px; margin-bottom: 15px;">
+                <p style="font-size: 1.3rem; color: #fff;"><strong>Room ID:</strong> <br><span id="displayRoomId" style="color: #ffd700; font-size: 1.8rem; font-weight: bold; display:inline-block; margin-top:5px;"></span></p>
+            </div>
+            <div style="background: rgba(0,0,0,0.6); padding: 20px; border: 1px solid var(--primary); border-radius: 5px;">
+                <p style="font-size: 1.3rem; color: #fff;"><strong>Password:</strong> <br><span id="displayRoomPass" style="color: #ffd700; font-size: 1.8rem; font-weight: bold; display:inline-block; margin-top:5px;"></span></p>
+            </div>
+            <p style="color: #aaa; font-size: 0.9rem; margin-top: 15px;">Do not share this ID & Password with unregistered players.</p>
         </div>
     </div>
 
@@ -374,7 +405,7 @@
                 <div class="custom-form-box" style="flex: 2; min-width:300px;">
                     <h3>Transaction History</h3>
                     <div id="transactionList" style="max-height: 400px; overflow-y:auto; margin-top:15px;">
-                        <!-- Trabsactions inject here -->
+                        <!-- Transactions inject here -->
                     </div>
                 </div>
             </div>
@@ -406,6 +437,7 @@
                         <textarea id="scrimDetails" placeholder="Full Details"></textarea>
                         <select id="scrimFormat"><option value="Team">Format: Team</option><option value="Solo">Format: Solo</option></select>
                         <input type="number" id="scrimFee" placeholder="Entry Fee in Coins (0 for Free)">
+                        <input type="text" id="scrimIdpTime" placeholder="IDP Time (e.g. 09:30 PM)">
                         <select id="scrimStatus"><option value="Upcoming">Upcoming</option><option value="On Going">On Going</option><option value="Completed">Completed</option></select>
                         <button class="action-btn" data-type="scrim">PUBLISH SCRIM</button>
                     </div>
@@ -416,6 +448,7 @@
                         <textarea id="tourDetails" placeholder="Full Details"></textarea>
                         <select id="tourFormat"><option value="Team">Format: Team</option><option value="Solo">Format: Solo</option></select>
                         <input type="number" id="tourFee" placeholder="Entry Fee in Coins (0 for Free)">
+                        <input type="text" id="tourIdpTime" placeholder="IDP Time (e.g. 10:00 PM)">
                         <select id="tourStatus"><option value="Upcoming">Upcoming</option><option value="On Going">On Going</option><option value="Completed">Completed</option></select>
                         <button class="action-btn" data-type="tour">PUBLISH TOUR</button>
                     </div>
@@ -466,10 +499,30 @@
         let globalWhatsAppNumber = "923272475737";
         let siteEntries = [];
         let userTeams = [];
+        let userRegistrations = []; // Holds eventIds that the user has joined
         let currentCoins = 0;
         let selectedEventForReg = null;
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            // Function to handle opening & closing modals smoothly
+            function showModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.style.display = 'flex';
+                // Trigger reflow
+                void modal.offsetWidth;
+                modal.classList.add('active');
+            }
+            function hideModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('active');
+                setTimeout(() => { modal.style.display = 'none'; }, 300);
+            }
+
+            // Bind close buttons
+            document.getElementById('closeProfileModal').addEventListener('click', () => hideModal('profileModal'));
+            document.getElementById('closeRegModal').addEventListener('click', () => hideModal('regModal'));
+            document.getElementById('closeIdpModal').addEventListener('click', () => hideModal('idpModal'));
 
             // --- 1. CORE DATA LISTENERS ---
             onSnapshot(collection(db, 'entries'), (snapshot) => {
@@ -490,13 +543,15 @@
                     const row = document.createElement('div');
                     row.className = 'list-item-row';
                     row.innerHTML = `
-                        <div>
-                            <strong>${req.gmail}</strong> requested <strong>${req.requestedCoins} Coins</strong><br>
-                            <span style="font-size:0.85rem; color:#aaa;">UID: ${req.uid}</span>
-                        </div>
-                        <div class="row-actions">
-                            <button class="btn-success approve-coin-btn" data-id="${req.id}" data-uid="${req.uid}" data-coins="${req.requestedCoins}">Approve</button>
-                            <button class="btn-danger reject-coin-btn" data-id="${req.id}">Reject</button>
+                        <div class="row-header-actions">
+                            <div>
+                                <strong>${req.gmail}</strong> requested <strong>${req.requestedCoins} Coins</strong><br>
+                                <span style="font-size:0.85rem; color:#aaa;">UID: ${req.uid}</span>
+                            </div>
+                            <div class="row-actions">
+                                <button class="btn-success approve-coin-btn" data-id="${req.id}" data-uid="${req.uid}" data-coins="${req.requestedCoins}">Approve</button>
+                                <button class="btn-danger reject-coin-btn" data-id="${req.id}">Reject</button>
+                            </div>
                         </div>
                     `;
                     list.appendChild(row);
@@ -504,9 +559,18 @@
 
                 document.querySelectorAll('.approve-coin-btn').forEach(btn => {
                     btn.addEventListener('click', async (e) => {
-                        const reqId = e.target.getAttribute('data-id');
-                        const uid = e.target.getAttribute('data-uid');
-                        const coins = parseInt(e.target.getAttribute('data-coins'));
+                        const btnEl = e.target;
+                        if(btnEl.disabled) return; // FIX DOUBLE CLICK BUG
+                        
+                        btnEl.disabled = true;
+                        btnEl.innerText = "Processing...";
+                        // Disable reject button in same row as well
+                        const rejectBtn = btnEl.parentElement.querySelector('.reject-coin-btn');
+                        if(rejectBtn) rejectBtn.disabled = true;
+
+                        const reqId = btnEl.getAttribute('data-id');
+                        const uid = btnEl.getAttribute('data-uid');
+                        const coins = parseInt(btnEl.getAttribute('data-coins'));
                         try {
                             await runTransaction(db, async (transaction) => {
                                 const userRef = doc(db, 'users', uid);
@@ -524,14 +588,25 @@
                                     reason: 'Admin Approved Payment', createdAt: serverTimestamp()
                                 });
                             });
-                            alert("Coins approved & added to user wallet!");
-                        } catch(err) { console.error(err); alert("Error approving: " + err); }
+                            // No need to alert and reset buttons because the row will be instantly removed by onSnapshot
+                        } catch(err) { 
+                            console.error(err); 
+                            alert("Error approving: " + err); 
+                            btnEl.disabled = false;
+                            btnEl.innerText = "Approve";
+                            if(rejectBtn) rejectBtn.disabled = false;
+                        }
                     });
                 });
 
                 document.querySelectorAll('.reject-coin-btn').forEach(btn => {
                     btn.addEventListener('click', async (e) => {
-                        const reqId = e.target.getAttribute('data-id');
+                        const btnEl = e.target;
+                        if(btnEl.disabled) return;
+                        btnEl.disabled = true;
+                        btnEl.innerText = "Rejecting...";
+                        
+                        const reqId = btnEl.getAttribute('data-id');
                         await updateDoc(doc(db, 'coinRequests', reqId), { status: 'rejected' });
                     });
                 });
@@ -549,24 +624,36 @@
                     const bgClass = 'bg-' + entry.status.toLowerCase().replace(' ', '');
                     const isId = entry.type === 'id';
                     
+                    // Determine if the current user has already joined this event
+                    const hasJoined = userRegistrations.includes(entry.id);
+                    
                     const newCard = document.createElement('div');
                     newCard.classList.add('gaming-card');
                     
                     let feeHtml = '';
                     let formatHtml = '';
+                    let timeHtml = '';
+                    
                     if(!isId) {
                         const feeText = (!entry.fee || entry.fee == 0) ? 'FREE' : entry.fee + ' Coins';
                         feeHtml = `<div class="fee-badge">Entry: ${feeText}</div>`;
                         formatHtml = `<div style="color:#aaa; margin-bottom:10px; font-weight:bold;">Format: ${entry.format || 'Team'}</div>`;
+                        if(entry.idpTime) {
+                            timeHtml = `<div style="color:#25D366; font-weight:bold; margin-bottom:10px; font-size: 0.95rem;">🕒 IDP TIME: ${entry.idpTime}</div>`;
+                        }
                     }
+
+                    // Card Action Text
+                    let btnText = isId ? 'BUY' : (hasJoined ? 'GET IDP' : 'JOIN');
 
                     newCard.innerHTML = `
                         <span class="badge ${bgClass}">${entry.status}</span>
                         <h3>${entry.title}</h3>
                         ${formatHtml}
+                        ${timeHtml}
                         ${feeHtml}
                         <p>${entry.details}</p>
-                        <button class="action-card-btn" data-id="${entry.id}">${isId ? 'BUY' : 'JOIN'}</button>
+                        <button class="action-card-btn ${hasJoined ? 'btn-get-idp' : ''}" data-id="${entry.id}">${btnText}</button>
                         ${isId ? `
                         <div class="contact-info-box">
                             <div class="number">+${globalWhatsAppNumber}</div>
@@ -586,8 +673,21 @@
                             actionBtn.style.background = contactBox.style.display === 'block' ? '#444' : 'var(--primary)';
                         } else {
                             if (!auth.currentUser) { alert("Please login first!"); return; }
-                            if (entry.status !== 'Upcoming' && entry.status !== 'Available') { alert("Registration closed for this event."); return; }
-                            openRegModal(entry);
+                            
+                            if (hasJoined) {
+                                // GET IDP Logic
+                                if (entry.roomId && entry.roomPass) {
+                                    document.getElementById('displayRoomId').innerText = entry.roomId;
+                                    document.getElementById('displayRoomPass').innerText = entry.roomPass;
+                                    showModal('idpModal');
+                                } else {
+                                    const t = entry.idpTime ? entry.idpTime : "shortly before the match";
+                                    alert(`IDP has not been published yet.\nIt will be provided at: ${t}`);
+                                }
+                            } else {
+                                if (entry.status !== 'Upcoming' && entry.status !== 'Available') { alert("Registration closed for this event."); return; }
+                                openRegModal(entry);
+                            }
                         }
                     });
 
@@ -595,7 +695,7 @@
                     else if (entry.type === 'tour') document.getElementById('tours-list').appendChild(newCard);
                     else if (entry.type === 'id') document.getElementById('ids-list').appendChild(newCard);
 
-                    // Admin Area Management Row
+                    // --- Admin Area Management Row ---
                     const adminRow = document.createElement('div');
                     adminRow.classList.add('list-item-row');
                     let optionsHTML = isId ? 
@@ -605,23 +705,56 @@
                          <option value="Completed" ${entry.status === 'Completed' ? 'selected' : ''}>Completed</option>
                          <option value="On Going" ${entry.status === 'On Going' ? 'selected' : ''}>On Going</option>`;
 
+                    let idpAdminControlsHTML = !isId ? `
+                        <div class="idp-controls">
+                            <input type="text" class="room-id-input" placeholder="Room ID" value="${entry.roomId || ''}">
+                            <input type="text" class="room-pass-input" placeholder="Password" value="${entry.roomPass || ''}">
+                            <button class="btn-success update-idp-btn" data-id="${entry.id}">SET IDP</button>
+                        </div>
+                    ` : '';
+
                     adminRow.innerHTML = `
-                        <div>
-                            <strong>[${entry.type.toUpperCase()}] ${entry.title}</strong><br>
-                            <span style="font-size: 0.9rem; color: #aaa;">Status: ${entry.status}</span>
+                        <div class="row-header-actions">
+                            <div>
+                                <strong>[${entry.type.toUpperCase()}] ${entry.title}</strong><br>
+                                <span style="font-size: 0.9rem; color: #aaa;">Status: ${entry.status}</span>
+                            </div>
+                            <div class="row-actions">
+                                <select class="status-select" data-id="${entry.id}">${optionsHTML}</select>
+                                <button class="btn-danger delete-db-btn" data-id="${entry.id}">Remove</button>
+                            </div>
                         </div>
-                        <div class="row-actions">
-                            <select class="status-select" data-id="${entry.id}">${optionsHTML}</select>
-                            <button class="btn-danger delete-db-btn" data-id="${entry.id}">Remove</button>
-                        </div>
+                        ${idpAdminControlsHTML}
                     `;
 
                     adminRow.querySelector('.status-select').addEventListener('change', async (e) => {
                         await updateDoc(doc(db, 'entries', e.target.getAttribute('data-id')), { status: e.target.value });
                     });
+                    
                     adminRow.querySelector('.delete-db-btn').addEventListener('click', async (e) => {
                         if (confirm('Permanently delete this entry?')) await deleteDoc(doc(db, 'entries', e.target.getAttribute('data-id')));
                     });
+
+                    // IDP Update Action
+                    if(!isId) {
+                        adminRow.querySelector('.update-idp-btn').addEventListener('click', async (e) => {
+                            const btn = e.target;
+                            btn.disabled = true;
+                            btn.innerText = 'UPDATING...';
+                            const roomId = adminRow.querySelector('.room-id-input').value.trim();
+                            const roomPass = adminRow.querySelector('.room-pass-input').value.trim();
+                            
+                            try {
+                                await updateDoc(doc(db, 'entries', entry.id), { roomId, roomPass });
+                                btn.innerText = 'UPDATED ✓';
+                                setTimeout(() => { btn.innerText = 'SET IDP'; btn.disabled = false; }, 2000);
+                            } catch(err) {
+                                alert("Failed to update IDP.");
+                                btn.innerText = 'SET IDP'; btn.disabled = false;
+                            }
+                        });
+                    }
+
                     document.getElementById('admin-manage-list').appendChild(adminRow);
                 });
             }
@@ -649,11 +782,9 @@
                 } else {
                     teamSelectContainer.style.display = 'none';
                 }
-                document.getElementById('regModal').style.display = 'flex';
+                showModal('regModal');
             }
 
-            document.getElementById('closeRegModal').addEventListener('click', () => { document.getElementById('regModal').style.display = 'none'; });
-            
             document.getElementById('confirmRegBtn').addEventListener('click', async () => {
                 if(!selectedEventForReg) return;
                 const entry = selectedEventForReg;
@@ -698,7 +829,7 @@
                     });
 
                     alert("Registration Successful!");
-                    document.getElementById('regModal').style.display = 'none';
+                    hideModal('regModal');
                 } catch(e) {
                     alert("Registration Failed: " + e);
                 } finally {
@@ -728,7 +859,6 @@
                     }
                     mobileMenu.classList.remove('active');
                     sidebar.classList.remove('active');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
 
@@ -736,6 +866,7 @@
             let userUnsubscribe = null;
             let teamUnsubscribe = null;
             let transUnsubscribe = null;
+            let regUnsubscribe = null;
 
             async function initUserData(user) {
                 const userRef = doc(db, 'users', user.uid);
@@ -776,6 +907,14 @@
                     });
                 });
 
+                // Listen to User's Registrations (to toggle JOIN / GET IDP)
+                const qRegs = query(collection(db, 'registrations'), where('uid', '==', user.uid));
+                regUnsubscribe = onSnapshot(qRegs, (snapshot) => {
+                    userRegistrations = [];
+                    snapshot.forEach(doc => { userRegistrations.push(doc.data().eventId); });
+                    renderAllEntries(); // Refresh UI to change buttons
+                });
+
                 // Listen to Wallet Transactions
                 const qTrans = query(collection(db, 'walletTransactions'), where('uid', '==', user.uid));
                 transUnsubscribe = onSnapshot(qTrans, (snapshot) => {
@@ -805,8 +944,10 @@
                 if(userUnsubscribe) userUnsubscribe();
                 if(teamUnsubscribe) teamUnsubscribe();
                 if(transUnsubscribe) transUnsubscribe();
+                if(regUnsubscribe) regUnsubscribe();
                 currentCoins = 0;
                 userTeams = [];
+                userRegistrations = [];
                 document.getElementById('headerCoinDisplay').style.display = 'none';
             }
 
@@ -866,20 +1007,19 @@
                 signOut(auth).then(() => { updateUserUI(null, false, false); }).catch(console.error);
             });
 
-            const profileModal = document.getElementById('profileModal');
             document.getElementById('headerProfileIcon').addEventListener('click', () => {
                 const user = auth.currentUser;
                 if (user) {
                     document.getElementById('modalName').innerText = user.displayName || 'Player';
                     document.getElementById('modalEmail').innerText = user.email;
                     document.getElementById('modalProfileImg').src = user.photoURL || 'https://via.placeholder.com/100';
-                    profileModal.style.display = 'flex';
+                    showModal('profileModal');
                 }
             });
-            document.getElementById('closeProfileModal').addEventListener('click', () => { profileModal.style.display = 'none'; });
 
             // --- 6. TEAMS CREATION ---
-            document.getElementById('createTeamBtn').addEventListener('click', async () => {
+            document.getElementById('createTeamBtn').addEventListener('click', async (e) => {
+                const btn = e.target;
                 const name = document.getElementById('teamNameInput').value.trim();
                 const p1 = document.getElementById('p1Input').value.trim();
                 const p2 = document.getElementById('p2Input').value.trim();
@@ -889,6 +1029,7 @@
                 if(!name || !p1 || !p2 || !p3 || !p4) { alert("Please fill all fields!"); return; }
                 
                 try {
+                    btn.disabled = true; btn.innerText = "CREATING...";
                     await addDoc(collection(db, 'teams'), {
                         teamName: name, ownerUid: auth.currentUser.uid,
                         players: [p1, p2, p3, p4], createdAt: serverTimestamp()
@@ -898,14 +1039,17 @@
                     document.getElementById('p3Input').value = ''; document.getElementById('p4Input').value = '';
                     alert("Team created successfully!");
                 } catch(e) { alert("Error creating team: " + e); }
+                finally { btn.disabled = false; btn.innerText = "CREATE TEAM"; }
             });
 
             // --- 7. WALLET RECHARGE REQUEST ---
-            document.getElementById('requestCoinsBtn').addEventListener('click', async () => {
+            document.getElementById('requestCoinsBtn').addEventListener('click', async (e) => {
+                const btn = e.target;
                 const amount = parseInt(document.getElementById('coinAmountReq').value);
                 if(isNaN(amount) || amount <= 0) { alert("Enter a valid amount!"); return; }
                 
                 try {
+                    btn.disabled = true; btn.innerText = "PROCESSING...";
                     await addDoc(collection(db, 'coinRequests'), {
                         uid: auth.currentUser.uid, gmail: auth.currentUser.email,
                         requestedCoins: amount, amountPKR: amount, status: 'pending', createdAt: serverTimestamp()
@@ -913,6 +1057,7 @@
                     alert(`Request placed for ${amount} Coins. Now please send the screenshot via WhatsApp.`);
                     document.getElementById('coinAmountReq').value = '';
                 } catch(e) { alert("Error submitting request: " + e); }
+                finally { btn.disabled = false; btn.innerText = "1. REQUEST COINS"; }
             });
 
             // --- 8. ADMIN LOGIN & ACTIONS ---
@@ -928,10 +1073,10 @@
             document.querySelectorAll('.action-btn').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     const type = btn.getAttribute('data-type');
-                    let titleId, detailsId, statusId, formatId, feeId;
+                    let titleId, detailsId, statusId, formatId, feeId, idpTimeId;
                     
-                    if (type === 'scrim') { titleId='scrimTitle'; detailsId='scrimDetails'; statusId='scrimStatus'; formatId='scrimFormat'; feeId='scrimFee'; } 
-                    else if (type === 'tour') { titleId='tourTitle'; detailsId='tourDetails'; statusId='tourStatus'; formatId='tourFormat'; feeId='tourFee'; } 
+                    if (type === 'scrim') { titleId='scrimTitle'; detailsId='scrimDetails'; statusId='scrimStatus'; formatId='scrimFormat'; feeId='scrimFee'; idpTimeId='scrimIdpTime'; } 
+                    else if (type === 'tour') { titleId='tourTitle'; detailsId='tourDetails'; statusId='tourStatus'; formatId='tourFormat'; feeId='tourFee'; idpTimeId='tourIdpTime'; } 
                     else if (type === 'id') { titleId='idTitle'; detailsId='idDetails'; statusId='idStatus'; }
 
                     const title = document.getElementById(titleId).value.trim();
@@ -939,22 +1084,26 @@
                     const status = document.getElementById(statusId).value;
                     let format = 'Team';
                     let fee = 0;
+                    let idpTime = "";
 
                     if(type !== 'id') {
                         format = document.getElementById(formatId).value;
                         fee = parseInt(document.getElementById(feeId).value) || 0;
+                        idpTime = document.getElementById(idpTimeId).value.trim();
                     }
 
                     if (title === "" || details === "") { alert("Fill all fields!"); return; }
                     
-                    const newEntry = { type, title, details, status, format, fee: type !== 'id' ? fee : 0 };
+                    const newEntry = { type, title, details, status, format, fee: type !== 'id' ? fee : 0, idpTime, roomId: "", roomPass: "" };
 
                     try {
+                        btn.disabled = true; btn.innerText = 'PUBLISHING...';
                         await addDoc(collection(db, 'entries'), newEntry);
                         document.getElementById(titleId).value = ''; document.getElementById(detailsId).value = '';
-                        if(type !== 'id') document.getElementById(feeId).value = '';
+                        if(type !== 'id') { document.getElementById(feeId).value = ''; document.getElementById(idpTimeId).value = ''; }
                         alert("Entry saved and published!");
                     } catch (e) { alert("Failed to publish: " + e); }
+                    finally { btn.disabled = false; btn.innerText = type === 'id' ? 'PUBLISH ID' : 'PUBLISH ' + type.toUpperCase(); }
                 });
             });
 
