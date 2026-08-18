@@ -10,7 +10,6 @@
     
     <style>
         :root {
-            /* HDR Adjustments: Deeper blacks, more vibrant glows */
             --bg-dark: #000000;
             --bg-panel: rgba(10, 10, 12, 0.6);
             --primary: #ff3300;
@@ -200,7 +199,6 @@
         .user-profile-card { text-align: center; background: var(--bg-panel); backdrop-filter: blur(20px); padding: 40px; border: 1px solid var(--primary); border-radius: 10px; max-width: 500px; margin: 40px auto; box-shadow: 0 10px 50px rgba(255,51,0,0.3); }
         .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary); margin-bottom: 15px; box-shadow: 0 0 25px var(--primary-glow); }
 
-        /* UI Forms & Inputs */
         .custom-form-box { background: var(--bg-panel); backdrop-filter: blur(15px); padding: 25px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.8); }
         .custom-form-box input, .custom-form-box textarea, .custom-form-box select { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.8); border: 1px solid #444; color: white; font-size: 1rem; font-family: 'Montserrat', sans-serif; border-radius: 4px; transition: 0.3s; }
         .custom-form-box input:focus, .custom-form-box textarea:focus, .custom-form-box select:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); outline: none; }
@@ -208,7 +206,6 @@
         .custom-form-box button:hover:not(:disabled) { background: #ff5533; box-shadow: 0 0 25px var(--primary-glow); }
         .custom-form-box button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* Modal Overlay */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-content { background: var(--bg-panel); padding: 30px; border: 2px solid var(--primary); border-radius: 10px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 15px 50px rgba(255, 51, 0, 0.6); transform: scale(0.9); transition: transform 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
@@ -217,7 +214,6 @@
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #888; cursor: pointer; transition: 0.3s; }
         .close-modal:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
 
-        /* Admin & Management */
         .admin-login { max-width: 450px; margin: 80px auto; text-align: center; background: var(--bg-panel); padding: 40px; border: 1px solid var(--primary); border-radius: 10px; box-shadow: 0 10px 40px rgba(255,51,0,0.3); }
         .admin-login input { width: 100%; padding: 15px; background: rgba(0,0,0,0.8); border: 1px solid var(--border-color); color: white; margin-bottom: 20px; font-size: 1.2rem; border-radius: 5px; }
         .admin-dashboard { display: none; }
@@ -226,16 +222,18 @@
         .list-item-row { background: rgba(0,0,0,0.8); padding: 15px 20px; border: 1px solid #444; border-radius: 5px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .list-item-row:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,51,0,0.4); }
         .row-header-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; width: 100%; }
-        .row-actions { display: flex; gap: 10px; align-items: center; }
+        .row-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .row-actions select { padding: 8px 12px; background: #222; color: white; border: 1px solid #555; border-radius: 4px; }
-        .btn-danger, .btn-success, .btn-primary { border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; color: white; }
+        .btn-danger, .btn-success, .btn-primary, .btn-warning { border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; color: white; }
         .btn-danger { background: #e74c3c; }
         .btn-success { background: #27ae60; }
         .btn-primary { background: #2980b9; }
+        .btn-warning { background: #f39c12; }
         .btn-success:hover:not(:disabled) { background: #1ebe57; box-shadow: 0 0 15px rgba(39, 174, 96, 0.7); }
         .btn-danger:hover:not(:disabled) { background: #c0392b; box-shadow: 0 0 15px rgba(231, 76, 60, 0.7); }
         .btn-primary:hover:not(:disabled) { background: #3498db; box-shadow: 0 0 15px rgba(41, 128, 185, 0.7); }
-        .btn-success:disabled, .btn-danger:disabled, .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-warning:hover:not(:disabled) { background: #e67e22; box-shadow: 0 0 15px rgba(243, 156, 18, 0.7); }
+        .btn-success:disabled, .btn-danger:disabled, .btn-primary:disabled, .btn-warning:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .idp-controls { display: flex; gap: 10px; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary); }
         .idp-controls input { flex: 1; padding: 8px; background: #111; color: white; border: 1px solid #555; border-radius: 4px; font-family: 'Montserrat', sans-serif;}
@@ -280,6 +278,41 @@
             <h3>ACCOUNT DETAILS</h3>
             <p style="background: rgba(0,0,0,0.8); padding: 10px; border-left: 3px solid var(--primary); text-align: left; margin-bottom: 10px;"><strong>Name:</strong> <span id="modalName">-</span></p>
             <p style="background: rgba(0,0,0,0.8); padding: 10px; border-left: 3px solid var(--primary); text-align: left;"><strong>Email:</strong> <span id="modalEmail">-</span></p>
+        </div>
+    </div>
+
+    <!-- Edit Entry Modal -->
+    <div class="modal-overlay" id="editEntryModal">
+        <div class="modal-content" style="max-width: 550px;">
+            <span class="close-modal" id="closeEditEntryModal">&times;</span>
+            <h3 id="editModalTitle">EDIT PUBLISHED ENTRY</h3>
+            <div class="custom-form-box" style="border:none; padding:0; box-shadow:none;">
+                <input type="hidden" id="editEntryId">
+                <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">Title:</label>
+                <input type="text" id="editTitle">
+                <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">Details:</label>
+                <textarea id="editDetails" rows="4"></textarea>
+                <div id="editNonIdFields">
+                    <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">Format:</label>
+                    <select id="editFormat">
+                        <option value="Team">Format: Team (12 Slots)</option>
+                        <option value="Solo">Format: Solo (48 Slots)</option>
+                    </select>
+                    <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">Entry Fee (Coins):</label>
+                    <input type="number" id="editFee">
+                    <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">IDP Time:</label>
+                    <input type="text" id="editIdpTime">
+                </div>
+                <label style="color:#primary; display:block; margin-bottom:5px; font-weight:bold;">Status:</label>
+                <select id="editStatus">
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="On Going">On Going</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Available">Available</option>
+                    <option value="Sold">Sold Out</option>
+                </select>
+                <button id="saveEditEntryBtn">SAVE & UPDATE</button>
+            </div>
         </div>
     </div>
 
@@ -340,6 +373,7 @@
         <a href="#teams" class="nav-link">MY TEAMS</a>
         <a href="#wallet" class="nav-link">WALLET</a>
         <a href="#ids" class="nav-link">IDS STORE</a>
+        <a href="#support" class="nav-link">SUPPORT</a>
         <a href="#user-auth" class="nav-link">PROFILE</a>
         <a href="#admin" class="nav-link">ADMIN PANEL</a>
     </div>
@@ -408,12 +442,13 @@
         <section id="wallet" class="page-section">
             <h2 class="sec-title">Player Wallet</h2>
             <div style="display:flex; flex-wrap:wrap; gap:30px;">
+                <!-- Deposit Box -->
                 <div class="custom-form-box" style="flex: 1; min-width:300px; text-align:center;">
                     <h3 style="font-size:3rem; color:#ffd700; margin-bottom:10px; text-shadow: 0 0 15px rgba(255,215,0,0.4);">🪙 <span id="mainWalletBalance">0</span> Coins</h3>
                     <p style="color:#ccc; margin-bottom:20px;">1 Coin = 1 PKR</p>
                     
                     <div style="background:rgba(0,0,0,0.8); padding:15px; border-left:4px solid #27ae60; margin-bottom:20px; text-align:left; box-shadow: inset 0 0 10px rgba(39,174,96,0.2);">
-                        <h4 style="color:#27ae60; margin-bottom:5px;">Payment Info</h4>
+                        <h4 style="color:#27ae60; margin-bottom:5px;">Deposit Payment Info</h4>
                         <p><strong>Method:</strong> JazzCash</p>
                         <p><strong>Account Name:</strong> Sidra Shahzad</p>
                         <p><strong>Account Number:</strong> 03205811709</p>
@@ -427,7 +462,29 @@
                     </a>
                     <p style="font-size:0.85rem; color:#888; margin-top:10px;">Send screenshot + Your Gmail + Requested Coins to WhatsApp to get approved.</p>
                 </div>
+
+                <!-- Withdraw Box -->
+                <div class="custom-form-box" style="flex: 1; min-width:300px;">
+                    <h3 style="color: var(--primary);">Withdraw Coins</h3>
+                    <p style="color:#ccc; margin-bottom:15px; font-size:0.9rem;">Minimum withdrawal: <strong>10 Coins</strong> (1 Coin = 1 PKR)</p>
+                    
+                    <label style="display:block; color:#aaa; margin-bottom:5px;">Amount to Withdraw:</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter Amount (Min 10)" min="10">
+
+                    <label style="display:block; color:#aaa; margin-bottom:5px;">Payment Method:</label>
+                    <select id="withdrawMethod">
+                        <option value="" disabled selected>Select Payment Method</option>
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="EasyPaisa">EasyPaisa</option>
+                    </select>
+
+                    <label style="display:block; color:#aaa; margin-bottom:5px;">Account Number:</label>
+                    <input type="text" id="withdrawNumber" placeholder="e.g. 03001234567">
+
+                    <button id="requestWithdrawBtn" style="background:#27ae60;">SUBMIT WITHDRAW REQUEST</button>
+                </div>
                 
+                <!-- History Box -->
                 <div class="custom-form-box" style="flex: 2; min-width:300px;">
                     <h3>Transaction History</h3>
                     <div id="transactionList" style="max-height: 400px; overflow-y:auto; margin-top:15px;">
@@ -441,6 +498,24 @@
         <section id="ids" class="page-section">
             <h2 class="sec-title">Premium IDs for Sale</h2>
             <div class="grid-container" id="ids-list"></div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support" class="page-section">
+            <h2 class="sec-title">Customer Support</h2>
+            <div class="custom-form-box" style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <i class="fa-brands fa-whatsapp" style="font-size: 5rem; color: #25D366; margin-bottom: 20px;"></i>
+                <h3 style="font-size: 2.8rem; margin-bottom: 10px; color: white;">24/7 WHATSAPP SUPPORT</h3>
+                <p style="color: #ccc; margin-bottom: 25px; font-size: 1.1rem; line-height: 1.6;">
+                    Have any questions regarding tournament registrations, scrims, wallet withdrawals, or account IDs? Contact our official support team directly on WhatsApp.
+                </p>
+                <div style="background: rgba(0,0,0,0.8); padding: 15px; border-left: 4px solid #25D366; border-radius: 5px; margin-bottom: 25px;">
+                    <p style="font-size: 1.5rem; color: #fff; font-weight: bold; letter-spacing: 1px;">+92 334 2701044</p>
+                </div>
+                <a href="https://wa.me/923342701044" target="_blank" class="start-btn" style="background: #25D366; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; box-shadow: 0 5px 20px rgba(37,211,102,0.4);">
+                    <i class="fa-brands fa-whatsapp"></i> CHAT ON WHATSAPP
+                </a>
+            </div>
         </section>
 
         <!-- Admin Section -->
@@ -489,8 +564,13 @@
                 </div>
 
                 <div class="admin-management-container">
-                    <h3 style="color: var(--primary); font-size: 2rem; margin-bottom: 15px;">Pending Coin Requests</h3>
+                    <h3 style="color: var(--primary); font-size: 2rem; margin-bottom: 15px;">Pending Coin Requests (Deposit)</h3>
                     <div id="admin-coin-requests-list"></div>
+                </div>
+
+                <div class="admin-management-container">
+                    <h3 style="color: #27ae60; font-size: 2rem; margin-bottom: 15px;">Pending Withdrawal Requests</h3>
+                    <div id="admin-withdraw-requests-list"></div>
                 </div>
 
                 <div class="admin-management-container">
@@ -522,7 +602,7 @@
         const provider = new GoogleAuthProvider();
         const db = getFirestore(app);
 
-        let globalWhatsAppNumber = "923272475737";
+        let globalWhatsAppNumber = "923342701044";
         let siteEntries = [];
         let userTeams = [];
         let userRegistrations = []; 
@@ -547,6 +627,7 @@
             document.getElementById('closeRegModal').addEventListener('click', () => hideModal('regModal'));
             document.getElementById('closeIdpModal').addEventListener('click', () => hideModal('idpModal'));
             document.getElementById('closeAdminParticipantsModal').addEventListener('click', () => hideModal('adminParticipantsModal'));
+            document.getElementById('closeEditEntryModal').addEventListener('click', () => hideModal('editEntryModal'));
 
             // --- 1. CORE DATA LISTENERS ---
             onSnapshot(collection(db, 'entries'), (snapshot) => {
@@ -555,11 +636,12 @@
                 renderAllEntries();
             });
 
+            // Deposit Requests Listener
             const qPending = query(collection(db, 'coinRequests'), where('status', '==', 'pending'));
             onSnapshot(qPending, (snapshot) => {
                 const list = document.getElementById('admin-coin-requests-list');
                 list.innerHTML = '';
-                if(snapshot.empty){ list.innerHTML = '<p style="color:#aaa;">No pending requests.</p>'; return;}
+                if(snapshot.empty){ list.innerHTML = '<p style="color:#aaa;">No pending deposit requests.</p>'; return;}
                 
                 snapshot.forEach((docSnap) => {
                     const req = {id: docSnap.id, ...docSnap.data()};
@@ -632,6 +714,52 @@
                 });
             });
 
+            // Withdrawal Requests Listener
+            const qWithdrawPending = query(collection(db, 'withdrawRequests'), where('status', '==', 'pending'));
+            onSnapshot(qWithdrawPending, (snapshot) => {
+                const list = document.getElementById('admin-withdraw-requests-list');
+                list.innerHTML = '';
+                if(snapshot.empty){ list.innerHTML = '<p style="color:#aaa;">No pending withdrawal requests.</p>'; return;}
+
+                snapshot.forEach((docSnap) => {
+                    const req = { id: docSnap.id, ...docSnap.data() };
+                    const row = document.createElement('div');
+                    row.className = 'list-item-row';
+                    row.innerHTML = `
+                        <div class="row-header-actions">
+                            <div>
+                                <strong>${req.gmail}</strong> requested withdrawal of <strong style="color:#ffd700;">${req.amount} Coins (PKR)</strong><br>
+                                <span style="font-size:0.95rem; color:#25D366;">Method: <strong>${req.method}</strong> | Number: <strong>${req.number}</strong></span><br>
+                                <span style="font-size:0.85rem; color:#aaa;">UID: ${req.uid}</span>
+                            </div>
+                            <div class="row-actions">
+                                <button class="btn-success done-withdraw-btn" data-id="${req.id}">DONE</button>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(row);
+                });
+
+                document.querySelectorAll('.done-withdraw-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const btnEl = e.target;
+                        if (btnEl.disabled) return;
+                        btnEl.disabled = true;
+                        btnEl.innerText = "Updating...";
+                        const reqId = btnEl.getAttribute('data-id');
+
+                        try {
+                            await updateDoc(doc(db, 'withdrawRequests', reqId), { status: 'completed' });
+                            alert("Withdrawal marked as DONE!");
+                        } catch(err) {
+                            alert("Error updating withdrawal: " + err);
+                            btnEl.disabled = false;
+                            btnEl.innerText = "DONE";
+                        }
+                    });
+                });
+            });
+
             // --- 2. RENDER ENTRIES (SCRIMS/TOURS/IDS) ---
             function renderAllEntries() {
                 document.getElementById('scrims-list').innerHTML = '';
@@ -644,7 +772,6 @@
                     const isId = entry.type === 'id';
                     const hasJoined = userRegistrations.includes(entry.id);
                     
-                    // Logic to check max slots
                     const maxSlots = entry.format === 'Solo' ? 48 : 12;
                     const currentJoined = entry.joinedCount || 0;
                     const isFull = currentJoined >= maxSlots;
@@ -668,7 +795,6 @@
                         }
                     }
 
-                    // Button visual logic
                     let btnText = isId ? 'BUY' : (hasJoined ? 'GET IDP' : (isFull ? 'SLOT FULL' : 'JOIN'));
                     const disabledAttr = (isFull && !hasJoined && !isId) ? 'disabled style="background:#444; color:#888; border:1px solid #555; cursor:not-allowed;"' : '';
 
@@ -749,21 +875,43 @@
                             </div>
                             <div class="row-actions">
                                 <select class="status-select" data-id="${entry.id}">${optionsHTML}</select>
+                                <button class="btn-warning edit-entry-btn" data-id="${entry.id}">Edit</button>
                                 <button class="btn-danger delete-db-btn" data-id="${entry.id}">Remove</button>
                             </div>
                         </div>
                         ${idpAdminControlsHTML}
                     `;
 
+                    // Quick Status Update
                     adminRow.querySelector('.status-select').addEventListener('change', async (e) => {
                         await updateDoc(doc(db, 'entries', e.target.getAttribute('data-id')), { status: e.target.value });
                     });
                     
+                    // Delete Entry
                     adminRow.querySelector('.delete-db-btn').addEventListener('click', async (e) => {
                         if (confirm('Permanently delete this entry?')) await deleteDoc(doc(db, 'entries', e.target.getAttribute('data-id')));
                     });
 
-                    // Admin View Participants Action
+                    // Edit Entry Modal Opener (preserves joined teams)
+                    adminRow.querySelector('.edit-entry-btn').addEventListener('click', () => {
+                        document.getElementById('editEntryId').value = entry.id;
+                        document.getElementById('editTitle').value = entry.title || '';
+                        document.getElementById('editDetails').value = entry.details || '';
+                        document.getElementById('editStatus').value = entry.status || 'Upcoming';
+
+                        const nonIdFields = document.getElementById('editNonIdFields');
+                        if (entry.type === 'id') {
+                            nonIdFields.style.display = 'none';
+                        } else {
+                            nonIdFields.style.display = 'block';
+                            document.getElementById('editFormat').value = entry.format || 'Team';
+                            document.getElementById('editFee').value = entry.fee || 0;
+                            document.getElementById('editIdpTime').value = entry.idpTime || '';
+                        }
+                        showModal('editEntryModal');
+                    });
+
+                    // Admin View Participants
                     adminRow.querySelector('.view-participants-btn')?.addEventListener('click', async (e) => {
                         const eventId = e.target.getAttribute('data-id');
                         document.getElementById('adminPartTitle').innerText = `PLAYERS [${entry.title}]`;
@@ -814,6 +962,48 @@
                     document.getElementById('admin-manage-list').appendChild(adminRow);
                 });
             }
+
+            // Save Edits to Scrims / Tournaments
+            document.getElementById('saveEditEntryBtn').addEventListener('click', async () => {
+                const entryId = document.getElementById('editEntryId').value;
+                const title = document.getElementById('editTitle').value.trim();
+                const details = document.getElementById('editDetails').value.trim();
+                const status = document.getElementById('editStatus').value;
+
+                if (!title || !details) {
+                    alert("Title and details cannot be empty!");
+                    return;
+                }
+
+                const existingEntry = siteEntries.find(e => e.id === entryId);
+                if (!existingEntry) return;
+
+                let updateData = { title, details, status };
+
+                if (existingEntry.type !== 'id') {
+                    const format = document.getElementById('editFormat').value;
+                    const fee = parseInt(document.getElementById('editFee').value) || 0;
+                    const idpTime = document.getElementById('editIdpTime').value.trim();
+                    updateData = { ...updateData, format, fee, idpTime };
+                }
+
+                try {
+                    const btn = document.getElementById('saveEditEntryBtn');
+                    btn.disabled = true;
+                    btn.innerText = "SAVING...";
+
+                    // Updating using updateDoc preserves joinedCount and existing registrations completely!
+                    await updateDoc(doc(db, 'entries', entryId), updateData);
+                    alert("Entry updated successfully! All joined teams/players remain intact.");
+                    hideModal('editEntryModal');
+                } catch(err) {
+                    alert("Error updating entry: " + err);
+                } finally {
+                    const btn = document.getElementById('saveEditEntryBtn');
+                    btn.disabled = false;
+                    btn.innerText = "SAVE & UPDATE";
+                }
+            });
 
             // --- 3. REGISTRATION MODAL LOGIC ---
             function openRegModal(entry) {
@@ -874,8 +1064,6 @@
                     document.getElementById('confirmRegBtn').disabled = true;
 
                     await runTransaction(db, async (transaction) => {
-                        
-                        // Check if slots are full within the transaction to prevent race conditions
                         const entryRef = doc(db, 'entries', entry.id);
                         const entryDoc = await transaction.get(entryRef);
                         const currentJoined = entryDoc.data().joinedCount || 0;
@@ -885,7 +1073,6 @@
                             throw "Sorry, the slots just became full!";
                         }
 
-                        // Check User Balance
                         const userRef = doc(db, 'users', auth.currentUser.uid);
                         const userDoc = await transaction.get(userRef);
                         if (!userDoc.exists() || (userDoc.data().coins || 0) < fee) throw "Insufficient funds verified on server!";
@@ -893,7 +1080,6 @@
                         const regRef = doc(collection(db, 'registrations'));
                         const transRef = doc(collection(db, 'walletTransactions'));
 
-                        // Execute writes
                         transaction.update(entryRef, { joinedCount: currentJoined + 1 });
                         transaction.update(userRef, { coins: (userDoc.data().coins || 0) - fee });
                         
@@ -958,7 +1144,6 @@
                     await setDoc(userRef, { gmail: user.email, displayName: user.displayName, photoURL: user.photoURL, coins: 0, createdAt: serverTimestamp() });
                 }
 
-                // Listen to Wallet balance
                 userUnsubscribe = onSnapshot(userRef, (doc) => {
                     if (doc.exists()) {
                         currentCoins = doc.data().coins || 0;
@@ -968,7 +1153,6 @@
                     }
                 });
 
-                // Listen to User's Teams
                 const qTeams = query(collection(db, 'teams'), where('ownerUid', '==', user.uid));
                 teamUnsubscribe = onSnapshot(qTeams, (snapshot) => {
                     userTeams = [];
@@ -990,7 +1174,6 @@
                     });
                 });
 
-                // Listen to User's Registrations 
                 const qRegs = query(collection(db, 'registrations'), where('uid', '==', user.uid));
                 regUnsubscribe = onSnapshot(qRegs, (snapshot) => {
                     userRegistrations = [];
@@ -998,7 +1181,6 @@
                     renderAllEntries(); 
                 });
 
-                // Listen to Wallet Transactions
                 const qTrans = query(collection(db, 'walletTransactions'), where('uid', '==', user.uid));
                 transUnsubscribe = onSnapshot(qTrans, (snapshot) => {
                     const list = document.getElementById('transactionList');
@@ -1125,7 +1307,8 @@
                 finally { btn.disabled = false; btn.innerText = "CREATE TEAM"; }
             });
 
-            // --- 7. WALLET RECHARGE REQUEST ---
+            // --- 7. WALLET RECHARGE & WITHDRAWAL ---
+            // Coin Request (Deposit)
             document.getElementById('requestCoinsBtn').addEventListener('click', async (e) => {
                 const btn = e.target;
                 const amount = parseInt(document.getElementById('coinAmountReq').value);
@@ -1141,6 +1324,79 @@
                     document.getElementById('coinAmountReq').value = '';
                 } catch(e) { alert("Error submitting request: " + e); }
                 finally { btn.disabled = false; btn.innerText = "1. REQUEST COINS"; }
+            });
+
+            // Coin Withdrawal
+            document.getElementById('requestWithdrawBtn').addEventListener('click', async (e) => {
+                const btn = e.target;
+                const amount = parseInt(document.getElementById('withdrawAmount').value);
+                const method = document.getElementById('withdrawMethod').value;
+                const number = document.getElementById('withdrawNumber').value.trim();
+
+                if (isNaN(amount) || amount < 10) {
+                    alert("Minimum withdrawal amount is 10 coins!");
+                    return;
+                }
+                if (!method) {
+                    alert("Please select JazzCash or EasyPaisa!");
+                    return;
+                }
+                if (!number) {
+                    alert("Please enter your account number!");
+                    return;
+                }
+                if (currentCoins < amount) {
+                    alert(`Insufficient coins! You currently have ${currentCoins} coins.`);
+                    return;
+                }
+
+                try {
+                    btn.disabled = true;
+                    btn.innerText = "SUBMITTING...";
+
+                    await runTransaction(db, async (transaction) => {
+                        const userRef = doc(db, 'users', auth.currentUser.uid);
+                        const userDoc = await transaction.get(userRef);
+                        const userBalance = userDoc.data().coins || 0;
+
+                        if (userBalance < amount) {
+                            throw "Insufficient balance on server verification!";
+                        }
+
+                        const withdrawRef = doc(collection(db, 'withdrawRequests'));
+                        const transRef = doc(collection(db, 'walletTransactions'));
+
+                        transaction.update(userRef, { coins: userBalance - amount });
+
+                        transaction.set(withdrawRef, {
+                            uid: auth.currentUser.uid,
+                            gmail: auth.currentUser.email,
+                            amount: amount,
+                            method: method,
+                            number: number,
+                            status: 'pending',
+                            createdAt: serverTimestamp()
+                        });
+
+                        transaction.set(transRef, {
+                            uid: auth.currentUser.uid,
+                            type: 'deduction',
+                            amount: amount,
+                            reason: `Withdrawal Request (${method} - ${number})`,
+                            createdAt: serverTimestamp()
+                        });
+                    });
+
+                    alert("Withdrawal request submitted! Admin will send payment manually to your number.");
+                    document.getElementById('withdrawAmount').value = '';
+                    document.getElementById('withdrawMethod').value = '';
+                    document.getElementById('withdrawNumber').value = '';
+                } catch(err) {
+                    alert("Withdrawal Request Failed: " + err);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerText = "SUBMIT WITHDRAW REQUEST";
+                }
             });
 
             // --- 8. ADMIN LOGIN & ACTIONS ---
@@ -1177,7 +1433,6 @@
 
                     if (title === "" || details === "") { alert("Fill all fields!"); return; }
                     
-                    // added joinedCount: 0 here to track the slots from the start
                     const newEntry = { type, title, details, status, format, fee: type !== 'id' ? fee : 0, idpTime, roomId: "", roomPass: "", joinedCount: 0 };
 
                     try {
@@ -1191,7 +1446,7 @@
                 });
             });
 
-            // BG Canvas Animation (HDR Enhanced)
+            // BG Canvas Animation
             const canvas = document.getElementById('live-bg');
             const ctx = canvas.getContext('2d');
             let width, height, particles;
@@ -1204,7 +1459,7 @@
                 particles.forEach(p => { 
                     ctx.beginPath(); 
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); 
-                    ctx.fillStyle = `rgba(255, 51, 0, ${Math.random() * 0.5 + 0.3})`; // Flickering glow
+                    ctx.fillStyle = `rgba(255, 51, 0, ${Math.random() * 0.5 + 0.3})`;
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = "rgba(255, 51, 0, 0.8)";
                     ctx.fill(); 
