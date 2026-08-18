@@ -20,7 +20,7 @@
 
             --status-upcoming: #f39c12;
             --status-completed: #27ae60;
-            --status-ongoing: #8e44ad; /* New Color for On Going */
+            --status-ongoing: #8e44ad;
             --status-ended: #c0392b;
             --status-available: #2980b9;
         }
@@ -71,7 +71,6 @@
             display: none;
         }
 
-        /* --- LOGIN ANIMATION OVERLAY --- */
         #login-animation {
             position: fixed;
             top: 0; 
@@ -113,7 +112,6 @@
             0%, 100% { opacity: 1; transform: scale(1); } 
             50% { opacity: 0.6; transform: scale(0.98); } 
         }
-        /* -------------------------------- */
 
         #live-bg {
             position: fixed;
@@ -156,7 +154,27 @@
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
+        }
+
+        .header-wallet-badge {
+            background: rgba(255, 87, 34, 0.15);
+            border: 1px solid var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .header-wallet-badge:hover {
+            box-shadow: 0 0 12px var(--primary-glow);
+            transform: scale(1.05);
         }
 
         .profile-icon {
@@ -223,8 +241,8 @@
 
         .sidebar a {
             display: block;
-            padding: 18px 30px;
-            font-size: 1.8rem;
+            padding: 16px 30px;
+            font-size: 1.6rem;
             color: var(--text-light);
             text-decoration: none;
             border-bottom: 1px solid rgba(255, 87, 34, 0.2);
@@ -257,7 +275,7 @@
             color: var(--text-light);
             border-left: 6px solid var(--primary);
             padding-left: 20px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             text-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
 
@@ -292,8 +310,8 @@
 
         .start-btn {
             display: inline-block;
-            padding: 15px 50px;
-            font-size: 2rem;
+            padding: 15px 40px;
+            font-size: 1.8rem;
             background: var(--primary);
             color: white;
             border: none;
@@ -302,10 +320,11 @@
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
             transition: all 0.3s ease;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         .start-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             background: #ff7043;
             box-shadow: 0 0 25px var(--primary);
         }
@@ -332,27 +351,36 @@
         .gaming-card:hover {
             border-color: var(--primary);
             box-shadow: 0 10px 30px var(--primary-glow);
-            transform: translateY(-8px);
+            transform: translateY(-5px);
         }
 
         .gaming-card h3 {
             font-size: 2.2rem;
             color: white;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .gaming-card p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             white-space: pre-wrap;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-grow: 1;
+        }
+
+        .meta-tag {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .badge {
             color: white;
             padding: 6px 14px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             border-radius: 4px;
             display: inline-block;
@@ -363,7 +391,7 @@
         }
 
         .bg-upcoming { background: var(--status-upcoming); }
-        .bg-ongoing { background: var(--status-ongoing); } /* Bound to new Status */
+        .bg-ongoing { background: var(--status-ongoing); }
         .bg-completed { background: var(--status-completed); }
         .bg-ended { background: var(--status-ended); }
         .bg-available { background: var(--status-available); }
@@ -398,15 +426,6 @@
             border-left: 3px solid #25D366;
             border-radius: 5px;
             text-align: center;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .contact-info-box .number {
-            font-size: 1.3rem;
-            color: white;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
         }
 
         .contact-info-box .wa-btn {
@@ -426,13 +445,125 @@
 
         .contact-info-box .wa-btn:hover {
             background: #1ebe57;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* WALLET UI */
+        .wallet-card-hero {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        .wallet-balance-amount {
+            font-size: 5rem;
+            font-family: 'Bebas Neue', sans-serif;
+            color: #fff;
+            text-shadow: 0 0 20px var(--primary-glow);
+            margin: 10px 0;
+        }
+
+        .payment-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .payment-info-banner {
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid #25D366;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #444;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* MODALS */
+        .custom-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-modal {
+            background: var(--bg-panel);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.4);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .close-modal-btn:hover { color: var(--primary); }
+
+        /* TABLES */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,87,34,0.15);
+        }
+
+        .custom-table th {
+            background: rgba(255,87,34,0.2);
+            color: var(--primary);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
         }
 
         .user-auth-box {
@@ -444,12 +575,6 @@
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             text-align: center;
-        }
-
-        .google-btn-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
         }
 
         .user-profile-card {
@@ -471,25 +596,11 @@
             box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .user-profile-card h3 {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .user-profile-card p {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--text-light);
-        }
-
         .profile-modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             z-index: 2000;
@@ -502,59 +613,19 @@
             padding: 40px;
             border: 2px solid var(--primary);
             border-radius: 10px;
-            width: 90%;
-            max-width: 450px;
+            width: 90%; max-width: 450px;
             position: relative;
-            box-shadow: 0 10px 40px rgba(255, 87, 34, 0.4);
             text-align: center;
-        }
-
-        .profile-modal-content h3 {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .profile-modal-content p {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #ddd;
-            text-align: left;
-            background: rgba(0,0,0,0.5);
-            padding: 10px 15px;
-            border-radius: 5px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            color: #888;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .close-modal:hover {
-            color: var(--primary);
         }
 
         .support-box {
             background: var(--bg-panel);
-            backdrop-filter: blur(8px);
             padding: 50px 30px;
             text-align: center;
             border: 1px solid var(--primary);
             border-radius: 12px;
             max-width: 700px;
             margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .support-box h3 {
-            font-size: 3rem;
-            margin-bottom: 15px;
         }
 
         .admin-login {
@@ -567,27 +638,13 @@
             border-radius: 10px;
         }
 
-        .admin-login input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid var(--border-color);
-            color: white;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .admin-dashboard {
-            display: none;
-        }
+        .admin-dashboard { display: none; }
 
         .admin-panel-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .admin-form-box {
@@ -603,120 +660,16 @@
             margin-bottom: 15px;
         }
 
-        .admin-form-box input,
-        .admin-form-box textarea,
-        .admin-form-box select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid #444;
-            color: white;
-            font-size: 1rem;
-            font-family: 'Montserrat', sans-serif;
-            border-radius: 4px;
-        }
-
-        .admin-form-box textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .admin-form-box button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border-radius: 4px;
-            transition: 0.3s;
-            font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .admin-form-box button:hover {
-            background: #ff7043;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .admin-management-container {
-            background: var(--bg-panel);
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-
-        .admin-manage-item {
-            background: rgba(0,0,0,0.6);
-            padding: 15px 20px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 15px;
-            transition: 0.3s;
-        }
-
-        .admin-manage-item:hover {
-            border-color: var(--primary);
-        }
-
-        .admin-manage-info strong {
-            color: var(--primary);
-            font-size: 1.3rem;
-            font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .admin-manage-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .admin-manage-actions select {
-            padding: 8px 12px;
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 4px;
-            font-family: 'Montserrat', sans-serif;
-            cursor: pointer;
-        }
-
-        .admin-manage-actions button {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .admin-manage-actions button:hover {
-            background: #c0392b;
-        }
-
         @media(max-width: 768px) {
-            #intro h1 { font-size: 5rem; }
+            #intro h1 { font-size: 4.5rem; }
             .sec-title { font-size: 3rem; }
-            .admin-manage-item { flex-direction: column; align-items: flex-start; }
-            .admin-manage-actions { width: 100%; justify-content: space-between; }
+            .wallet-balance-amount { font-size: 3.5rem; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- STARTING ANIMATION SCREEN -->
     <div id="login-animation">
         <div class="spinner"></div>
         <h2 id="login-welcome-text">AUTHENTICATING...</h2>
@@ -728,6 +681,10 @@
         <a href="#intro" class="logo nav-link">ASHES <span>OF WAR</span></a>
 
         <div class="header-controls">
+            <div class="header-wallet-badge nav-link" href="#wallet">
+                <i class="fa-solid fa-coins" style="color: #f1c40f;"></i>
+                <span id="headerCoinCount">0</span> Coins
+            </div>
             <i class="fa-solid fa-user profile-icon" id="headerProfileIcon" title="View Profile"></i>
 
             <div class="menu-toggle" id="mobile-menu">
@@ -740,54 +697,53 @@
 
     <div class="profile-modal-overlay" id="profileModal">
         <div class="profile-modal-content">
-            <span class="close-modal" id="closeProfileModal">&times;</span>
-
+            <span class="close-modal-btn" id="closeProfileModal">&times;</span>
             <img id="modalProfileImg" src="" alt="Profile Picture" class="profile-img">
-            <h3>ACCOUNT DETAILS</h3>
-
-            <p><strong>Name:</strong> <span id="modalName">-</span></p>
-            <p><strong>Email:</strong> <span id="modalEmail">-</span></p>
+            <h3 style="font-size: 2.5rem; color: var(--primary);">ACCOUNT DETAILS</h3>
+            <p style="margin: 10px 0;"><strong>Name:</strong> <span id="modalName">-</span></p>
+            <p style="margin: 10px 0;"><strong>Email:</strong> <span id="modalEmail">-</span></p>
+            <p style="margin: 10px 0;"><strong>Coins:</strong> 🪙 <span id="modalCoins">0</span></p>
         </div>
     </div>
 
     <div class="sidebar" id="sidebar">
-        <a href="#intro" class="nav-link">INTRODUCTION</a>
-        <a href="#scrims" class="nav-link">1. SCRIMS</a>
-        <a href="#tournaments" class="nav-link">2. TOURNAMENTS</a>
-        <a href="#ids" class="nav-link">3. IDS</a>
-        <a href="#user-auth" class="nav-link">4. USER PROFILE</a>
-        <a href="#support" class="nav-link">5. SUPPORT</a>
-        <a href="#admin" class="nav-link">6. ADMIN</a>
+        <a href="#intro" class="nav-link">HOME</a>
+        <a href="#scrims" class="nav-link">SCRIMS</a>
+        <a href="#tournaments" class="nav-link">TOURNAMENTS</a>
+        <a href="#teams" class="nav-link">TEAMS</a>
+        <a href="#wallet" class="nav-link">WALLET</a>
+        <a href="#ids" class="nav-link">IDS</a>
+        <a href="#user-auth" class="nav-link">PROFILE</a>
+        <a href="#support" class="nav-link">SUPPORT</a>
+        <a href="#admin" class="nav-link" id="adminSidebarLink" style="display:none;">ADMIN</a>
     </div>
 
     <main>
 
         <section id="user-auth" class="page-section">
             <div class="auth-header" style="text-align: center; margin-bottom: 30px;">
-                <h1 style="font-size: 5rem; text-shadow: 0 0 25px var(--primary-glow); font-family: 'Bebas Neue', sans-serif;">
+                <h1 style="font-size: 5rem; text-shadow: 0 0 25px var(--primary-glow);">
                     ASHES <span style="color: var(--primary);">OF WAR</span>
                 </h1>
                 <p style="color: #ccc; font-size: 1.2rem; margin-top: 10px;">
-                    Sign in with Google to access the platform.
+                    Sign in with Google to access tournaments, teams, and your coin wallet.
                 </p>
             </div>
 
             <div class="user-auth-box" id="authBox">
-                <h2 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 1px; margin-bottom: 20px;">PLAYER LOGIN</h2>
-                <p style="color: #bbb; margin-bottom: 30px;">Authenticate quickly and securely using your Google Account.</p>
-                
-                <div class="google-btn-container">
-                    <button id="googleSignInBtn" class="start-btn" style="width: 100%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                        <i class="fa-brands fa-google"></i> SIGN IN
-                    </button>
-                </div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">PLAYER LOGIN</h2>
+                <p style="color: #bbb; margin-bottom: 30px;">Authenticate quickly using your Google Account.</p>
+                <button id="googleSignInBtn" class="start-btn" style="width: 100%; font-size: 1.5rem;">
+                    <i class="fa-brands fa-google"></i> SIGN IN WITH GOOGLE
+                </button>
             </div>
 
             <div class="user-profile-card" id="userProfileCard" style="display: none;">
                 <img id="profilePic" src="" alt="Profile Picture" class="profile-img">
-                <h3>PLAYER PROFILE</h3>
+                <h3 style="font-size: 2.8rem; color: var(--primary);">PLAYER PROFILE</h3>
                 <p><strong>Name:</strong> <span id="profileName">-</span></p>
                 <p><strong>Email:</strong> <span id="profileEmailCard">-</span></p>
+                <p><strong>Balance:</strong> 🪙 <span id="profileCoinsCard">0</span> Coins</p>
 
                 <button class="start-btn" id="userLogoutBtn" style="margin-top: 25px; background: #c0392b;">
                     LOGOUT
@@ -798,9 +754,7 @@
         <section id="intro" class="page-section">
             <h1>ASHES <span style="color: var(--primary);">OF WAR</span></h1>
             <p>
-                Pakistan's Elite Platform for Competitive Gaming.
-                Dominate the battlegrounds, trade premium IDs,
-                and prove your worth in our Scrims.
+                Pakistan's Elite Esports Platform. Register your teams, enter custom scrims & tournaments using wallet coins, and dominate the arena.
             </p>
             <a href="#scrims" class="start-btn nav-link">Enter Arena</a>
         </section>
@@ -815,6 +769,72 @@
             <div class="grid-container" id="tours-list"></div>
         </section>
 
+        <section id="teams" class="page-section">
+            <h2 class="sec-title">My Esports Teams</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <button class="start-btn" id="openCreateTeamBtn">+ REGISTER NEW TEAM</button>
+            </div>
+
+            <div class="grid-container" id="user-teams-list"></div>
+        </section>
+
+        <section id="wallet" class="page-section">
+            <h2 class="sec-title">Coin Wallet</h2>
+
+            <div class="wallet-card-hero">
+                <h3 style="color: #aaa; font-size: 1.5rem;">CURRENT WALLET BALANCE</h3>
+                <div class="wallet-balance-amount">🪙 <span id="walletCoinBalance">0</span> COINS</div>
+                <p style="color: #888;">Conversion Rate: <strong>1 Coin = 1 PKR</strong></p>
+            </div>
+
+            <div class="payment-box">
+                <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;">ADD COINS TO WALLET</h3>
+                
+                <div class="payment-info-banner">
+                    <h4 style="color: #25D366; font-size: 1.5rem; margin-bottom: 8px;">
+                        <i class="fa-solid fa-money-bill-transfer"></i> JazzCash Payment Information
+                    </h4>
+                    <p style="font-size: 1.1rem; color: #fff;"><strong>Account Name:</strong> Sidra Shahzad</p>
+                    <p style="font-size: 1.2rem; color: #25D366; font-weight: bold;"><strong>JazzCash Number:</strong> 03205811709</p>
+                </div>
+
+                <form id="coinRequestForm">
+                    <div class="form-group">
+                        <label for="coinAmountInput">Select / Enter Coins (1 PKR = 1 Coin):</label>
+                        <input type="number" id="coinAmountInput" class="form-control" min="10" placeholder="e.g. 50" required>
+                    </div>
+
+                    <p style="margin-bottom: 20px; font-weight: bold; font-size: 1.2rem;">
+                        Total Payable: <span style="color: var(--primary);" id="calculatedPkrText">0 PKR</span>
+                    </p>
+
+                    <button type="submit" class="start-btn" style="width: 100%; background: #25D366; border-radius: 6px;">
+                        <i class="fa-brands fa-whatsapp"></i> SEND PAYMENT SCREENSHOT ON WHATSAPP
+                    </button>
+                </form>
+            </div>
+
+            <div class="payment-box">
+                <h3 style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;">TRANSACTION HISTORY</h3>
+                <div style="overflow-x: auto;">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Coins</th>
+                                <th>Description / ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="walletHistoryTable">
+                            <tr><td colspan="4" style="text-align:center;">No transactions found.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
         <section id="ids" class="page-section">
             <h2 class="sec-title">Premium IDs for Sale</h2>
             <div class="grid-container" id="ids-list"></div>
@@ -823,102 +843,176 @@
         <section id="support" class="page-section">
             <h2 class="sec-title">Support & Contact</h2>
             <div class="support-box">
-                <h3>General Info</h3>
+                <h3 style="font-size: 2.8rem; color: white;">General Info</h3>
                 <p id="site-info" style="margin-bottom: 25px; font-size: 1.1rem; color: #ddd; font-weight: 600;">
-                    Need help booking a slot or buying an ID?
-                    Contact us through our official channels.
+                    Need help booking a slot or buying an ID? Contact our official support below.
                 </p>
-                <h1 style="color: var(--primary); font-size: 4.5rem; margin-bottom: 30px; text-shadow: 0 0 15px var(--primary-glow);">
+                <h1 style="color: var(--primary); font-size: 4rem; margin-bottom: 20px;">
                     +92 327 2475737
                 </h1>
             </div>
         </section>
 
         <section id="admin" class="page-section">
-            <h2 class="sec-title">Admin Access</h2>
+            <h2 class="sec-title">Admin Management</h2>
+
             <div class="admin-login" id="admin-login-screen">
-                <h3 style="font-size: 3rem; margin-bottom: 20px; color: var(--primary);">SYSTEM LOGIN</h3>
-                <input type="password" id="adminPass" placeholder="Enter Admin Password">
-                <button class="start-btn" id="loginBtn" style="width: 100%;">AUTHENTICATE</button>
+                <h3 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--primary);">ADMIN AUTHENTICATION</h3>
+                <p style="color:#aaa; margin-bottom:20px;">Sign in with an authorized Google account and enter system key.</p>
+                <input type="password" id="adminPass" class="form-control" placeholder="Enter Security Key" style="margin-bottom:15px;">
+                <button class="start-btn" id="loginBtn" style="width: 100%;">VERIFY ACCESS</button>
                 <p id="adminError" style="color: #ff5722; margin-top: 15px; font-weight: bold; display: none;">
-                    Access Denied: Invalid Password!
+                    Access Denied: Unverified Administrator!
                 </p>
             </div>
 
             <div class="admin-dashboard" id="admin-dashboard-screen">
-                <p style="margin-bottom: 40px; font-size: 1.2rem; color: var(--primary); font-weight: bold;">
-                    [ CONNECTED ] Welcome, Admin. Update the website database below.
+                <p style="margin-bottom: 30px; font-size: 1.2rem; color: #27ae60; font-weight: bold;">
+                    [ AUTHORIZED SYSTEM ACCESS ] Welcome Admin.
                 </p>
-                
+
+                <div class="admin-form-box" style="margin-bottom: 40px;">
+                    <h4>Pending Coin Payment Requests</h4>
+                    <div style="overflow-x: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>User Gmail</th>
+                                    <th>Requested Coins</th>
+                                    <th>PKR Amount</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminCoinRequestsTable">
+                                <tr><td colspan="5" style="text-align:center;">No pending payment requests.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="admin-panel-grid">
                     <div class="admin-form-box">
-                        <h4>Add New Scrim</h4>
-                        <input type="text" id="scrimTitle" placeholder="Scrim Title (e.g. T2 Customs)">
-                        <textarea id="scrimDetails" placeholder="Full Details (Timings, Rules, Prize, etc.)"></textarea>
-                        <select id="scrimStatus">
-                            <option value="Upcoming">Status: Upcoming</option>
-                            <option value="Completed">Status: Completed</option>
-                            <option value="On Going">Status: On Going</option> <!-- Changed from Ended to On Going -->
+                        <h4>Create Scrim / Tournament</h4>
+                        <input type="text" id="eventTitle" class="form-control" placeholder="Event Name" style="margin-bottom:10px;">
+                        <select id="eventCategory" class="form-control" style="margin-bottom:10px;">
+                            <option value="scrim">Category: Scrim</option>
+                            <option value="tour">Category: Tournament</option>
                         </select>
-                        <button class="action-btn" data-type="scrim">PUBLISH SCRIM</button>
-                    </div>
-
-                    <div class="admin-form-box">
-                        <h4>Add Tournament</h4>
-                        <input type="text" id="tourTitle" placeholder="Tournament Name">
-                        <textarea id="tourDetails" placeholder="Full Details (Prize Pool, Schedule, Format)"></textarea>
-                        <select id="tourStatus">
-                            <option value="Upcoming">Status: Upcoming</option>
-                            <option value="Completed">Status: Completed</option>
-                            <option value="On Going">Status: On Going</option> <!-- Changed from Ended to On Going -->
+                        <select id="eventTourType" class="form-control" style="margin-bottom:10px;">
+                            <option value="Team">Format: Team (4 Players)</option>
+                            <option value="Solo">Format: Solo Player</option>
                         </select>
-                        <button class="action-btn" data-type="tour">PUBLISH TOUR</button>
+                        <input type="number" id="eventEntryFee" class="form-control" placeholder="Entry Fee in Coins (0 for free)" style="margin-bottom:10px;">
+                        <input type="text" id="eventPrize" class="form-control" placeholder="Prize Pool (e.g. 5,000 PKR)" style="margin-bottom:10px;">
+                        <textarea id="eventDetails" class="form-control" placeholder="Details & Rules" style="margin-bottom:10px;"></textarea>
+                        <select id="eventStatus" class="form-control" style="margin-bottom:10px;">
+                            <option value="Upcoming">Status: Upcoming</option>
+                            <option value="On Going">Status: On Going</option>
+                            <option value="Completed">Status: Completed</option>
+                        </select>
+                        <button class="start-btn" id="publishEventBtn" style="width:100%; font-size:1.4rem;">PUBLISH EVENT</button>
                     </div>
 
                     <div class="admin-form-box">
                         <h4>Add Account ID</h4>
-                        <input type="text" id="idTitle" placeholder="ID Level/Name">
-                        <textarea id="idDetails" placeholder="Price, Skins details, Rank, etc."></textarea>
-                        <select id="idStatus">
+                        <input type="text" id="idTitle" class="form-control" placeholder="ID Title" style="margin-bottom:10px;">
+                        <textarea id="idDetails" class="form-control" placeholder="Price, Skins, Details" style="margin-bottom:10px;"></textarea>
+                        <select id="idStatus" class="form-control" style="margin-bottom:10px;">
                             <option value="Available">Status: Available</option>
                             <option value="Sold">Status: Sold Out</option>
                         </select>
-                        <button class="action-btn" data-type="id">PUBLISH ID</button>
-                    </div>
-
-                    <div class="admin-form-box">
-                        <h4>Update Support Info</h4>
-                        <textarea id="infoText" placeholder="New announcement text or rules..."></textarea>
-                        <button id="updateInfoBtn">UPDATE INFO</button>
-                    </div>
-
-                    <!-- NEW: Update WhatsApp Number Section -->
-                    <div class="admin-form-box">
-                        <h4>Update WhatsApp Number</h4>
-                        <input type="text" id="waNumberInput" placeholder="e.g. 923272475737 (No '+' sign)">
-                        <button id="updateWABtn">UPDATE NUMBER</button>
-                        <p style="margin-top:10px; font-size:0.9rem; color:#aaa;">Changes update the join buttons immediately.</p>
+                        <button class="start-btn" id="publishIdBtn" style="width:100%; font-size:1.4rem;">PUBLISH ID</button>
                     </div>
                 </div>
 
-                <div class="admin-management-container">
-                    <h3 style="color: var(--primary); font-size: 2.5rem; margin-bottom: 20px;">
-                        Manage Published Entries
-                    </h3>
-                    <p style="margin-bottom: 20px; color: #ccc;">
-                        Change status or remove existing Scrims, Tournaments, and IDs from the database.
-                    </p>
-                    <div id="admin-manage-list"></div>
+                <div class="admin-form-box" style="margin-bottom: 40px;">
+                    <h4>Event Registrations Roster</h4>
+                    <div style="overflow-x: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Type</th>
+                                    <th>Team / Player Name</th>
+                                    <th>User Email</th>
+                                    <th>Roster / Free Fire ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminRegistrationsTable">
+                                <tr><td colspan="5" style="text-align:center;">No registrations found.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FIREBASE MODULE SCRIPT -->
+    <!-- CREATE TEAM MODAL -->
+    <div class="custom-modal-overlay" id="createTeamModal">
+        <div class="custom-modal">
+            <span class="close-modal-btn" id="closeTeamModal">&times;</span>
+            <h3 style="font-size: 2.2rem; color: var(--primary); margin-bottom: 15px;">REGISTER NEW TEAM</h3>
+            
+            <form id="teamForm">
+                <div class="form-group">
+                    <label>Team Name:</label>
+                    <input type="text" id="teamNameInput" class="form-control" required placeholder="e.g. ALPHA SQUAD">
+                </div>
+                <div class="form-group">
+                    <label>Player 1 (Captain):</label>
+                    <input type="text" id="p1Input" class="form-control" required placeholder="Name & Free Fire ID">
+                </div>
+                <div class="form-group">
+                    <label>Player 2:</label>
+                    <input type="text" id="p2Input" class="form-control" required placeholder="Name & Free Fire ID">
+                </div>
+                <div class="form-group">
+                    <label>Player 3:</label>
+                    <input type="text" id="p3Input" class="form-control" required placeholder="Name & Free Fire ID">
+                </div>
+                <div class="form-group">
+                    <label>Player 4:</label>
+                    <input type="text" id="p4Input" class="form-control" required placeholder="Name & Free Fire ID">
+                </div>
+                <button type="submit" class="start-btn" style="width:100%;">SAVE TEAM</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EVENT JOIN MODAL -->
+    <div class="custom-modal-overlay" id="joinEventModal">
+        <div class="custom-modal">
+            <span class="close-modal-btn" id="closeJoinModal">&times;</span>
+            <h3 style="font-size: 2.2rem; color: var(--primary); margin-bottom: 10px;" id="joinModalTitle">JOIN EVENT</h3>
+            <p style="color: #ccc; margin-bottom: 15px;" id="joinModalFeeText">Entry Fee: 0 Coins</p>
+
+            <form id="joinEventForm">
+                <input type="hidden" id="joinEventId">
+                
+                <div id="teamSelectContainer" class="form-group">
+                    <label>Select Your Registered Team:</label>
+                    <select id="userTeamSelect" class="form-control"></select>
+                </div>
+
+                <div id="soloGameIdContainer" class="form-group" style="display:none;">
+                    <label>Your Free Fire / In-Game ID:</label>
+                    <input type="text" id="soloGameIdInput" class="form-control" placeholder="Enter In-Game ID">
+                </div>
+
+                <button type="submit" class="start-btn" style="width:100%; margin-top: 15px;">CONFIRM & REGISTER</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FIREBASE APP LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { 
+            getFirestore, collection, addDoc, onSnapshot, doc, getDoc, setDoc, updateDoc, deleteDoc, runTransaction, query, where, orderBy 
+        } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyCtKY5fH-XYXXeTOn9WpuFvrs73doplduQ",
@@ -935,126 +1029,525 @@
         const provider = new GoogleAuthProvider();
         const db = getFirestore(app);
 
-        // Global Variable for dynamic WhatsApp number
-        let globalWhatsAppNumber = "923272475737";
+        const ADMIN_PAYMENT_WA = "923342701044";
+        const ADMIN_ID_WA = "923272475737";
+
+        let currentUser = null;
+        let currentUserDoc = null;
+        let siteEntries = [];
+        let userTeams = [];
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            let siteEntries = [];
-
+            // Single listener for entries
             onSnapshot(collection(db, 'entries'), (snapshot) => {
                 siteEntries = [];
-                snapshot.forEach((doc) => {
-                    siteEntries.push({ id: doc.id, ...doc.data() });
+                snapshot.forEach((docSnap) => {
+                    siteEntries.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 renderAllEntries();
             });
 
-            function renderAllEntries() {
-                document.getElementById('scrims-list').innerHTML = '';
-                document.getElementById('tours-list').innerHTML = '';
-                document.getElementById('ids-list').innerHTML = '';
-                document.getElementById('admin-manage-list').innerHTML = '';
+            // Auth State Change
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    await ensureUserDocument(user);
+                    listenToUserDoc(user.uid);
+                    listenToUserTeams(user.uid);
+                    listenToUserTransactions(user.uid);
+                    updateUserUI(user, false, true);
+                } else {
+                    currentUser = null;
+                    currentUserDoc = null;
+                    updateUserUI(null, false, true);
+                }
+            });
 
-                siteEntries.forEach(entry => {
-                    // This creates classes like 'bg-upcoming', 'bg-ongoing', etc.
-                    const bgClass = 'bg-' + entry.status.toLowerCase().replace(' ', '');
-                    const btnText = entry.type === 'id' ? 'BUY' : 'JOIN';
-
-                    const newCard = document.createElement('div');
-                    newCard.classList.add('gaming-card');
-                    
-                    // Insert dynamic globalWhatsAppNumber here
-                    newCard.innerHTML = `
-                        <span class="badge ${bgClass}">${entry.status}</span>
-                        <h3>${entry.title}</h3>
-                        <p>${entry.details}</p>
-                        <button class="action-card-btn">${btnText}</button>
-                        <div class="contact-info-box">
-                            <div class="number">+${globalWhatsAppNumber}</div>
-                            <a href="https://wa.me/${globalWhatsAppNumber}" target="_blank" class="wa-btn">
-                                <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
-                            </a>
-                        </div>
-                    `;
-
-                    const actionBtn = newCard.querySelector('.action-card-btn');
-                    const contactBox = newCard.querySelector('.contact-info-box');
-
-                    actionBtn.addEventListener('click', () => {
-                        if (contactBox.style.display === 'none' || contactBox.style.display === '') {
-                            contactBox.style.display = 'block';
-                            actionBtn.innerText = 'CLOSE';
-                            actionBtn.style.background = '#444';
-                        } else {
-                            contactBox.style.display = 'none';
-                            actionBtn.innerText = btnText;
-                            actionBtn.style.background = 'var(--primary)';
-                        }
+            async function ensureUserDocument(user) {
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    await setDoc(userRef, {
+                        gmail: user.email,
+                        displayName: user.displayName || 'Player',
+                        photoURL: user.photoURL || '',
+                        coins: 0,
+                        isAdmin: false,
+                        createdAt: new Date().toISOString()
                     });
+                }
+            }
 
-                    if (entry.type === 'scrim') { document.getElementById('scrims-list').appendChild(newCard); } 
-                    else if (entry.type === 'tour') { document.getElementById('tours-list').appendChild(newCard); } 
-                    else if (entry.type === 'id') { document.getElementById('ids-list').appendChild(newCard); }
-
-                    // Admin Area Management Row
-                    const adminRow = document.createElement('div');
-                    adminRow.classList.add('admin-manage-item');
-                    let optionsHTML = '';
-
-                    if (entry.type === 'id') {
-                        optionsHTML = `
-                            <option value="Available" ${entry.status === 'Available' ? 'selected' : ''}>Available</option>
-                            <option value="Sold" ${entry.status === 'Sold' ? 'selected' : ''}>Sold</option>
-                        `;
-                    } else {
-                        // Replaced Ended with On Going in Dropdown
-                        optionsHTML = `
-                            <option value="Upcoming" ${entry.status === 'Upcoming' ? 'selected' : ''}>Upcoming</option>
-                            <option value="Completed" ${entry.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                            <option value="On Going" ${entry.status === 'On Going' ? 'selected' : ''}>On Going</option>
-                        `;
-                    }
-
-                    adminRow.innerHTML = `
-                        <div class="admin-manage-info">
-                            <strong>[${entry.type.toUpperCase()}] ${entry.title}</strong><br>
-                            <span style="font-size: 0.9rem; color: #aaa;">Status: ${entry.status}</span>
-                        </div>
-                        <div class="admin-manage-actions">
-                            <select class="status-select" data-id="${entry.id}">${optionsHTML}</select>
-                            <button class="delete-db-btn" data-id="${entry.id}">Remove</button>
-                        </div>
-                    `;
-
-                    adminRow.querySelector('.status-select').addEventListener('change', async (e) => {
-                        const targetId = e.target.getAttribute('data-id'); 
-                        const newStatus = e.target.value;
+            function listenToUserDoc(uid) {
+                onSnapshot(doc(db, 'users', uid), (docSnap) => {
+                    if (docSnap.exists()) {
+                        currentUserDoc = docSnap.data();
+                        const coins = currentUserDoc.coins || 0;
                         
-                        try {
-                            await updateDoc(doc(db, 'entries', targetId), { status: newStatus });
-                        } catch (error) {
-                            console.error("Error updating status:", error);
-                            alert("Failed to update status.");
-                        }
-                    });
+                        document.getElementById('headerCoinCount').innerText = coins;
+                        document.getElementById('walletCoinBalance').innerText = coins;
+                        document.getElementById('profileCoinsCard').innerText = coins;
+                        document.getElementById('modalCoins').innerText = coins;
 
-                    adminRow.querySelector('.delete-db-btn').addEventListener('click', async (e) => {
-                        const targetId = e.target.getAttribute('data-id');
-                        if (confirm('Are you sure you want to permanently delete this entry?')) {
-                            try {
-                                await deleteDoc(doc(db, 'entries', targetId));
-                            } catch (error) {
-                                console.error("Error deleting entry:", error);
-                                alert("Failed to delete entry.");
-                            }
+                        if (currentUserDoc.isAdmin) {
+                            document.getElementById('adminSidebarLink').style.display = 'block';
+                        } else {
+                            document.getElementById('adminSidebarLink').style.display = 'none';
                         }
-                    });
-                    document.getElementById('admin-manage-list').appendChild(adminRow);
+                    }
                 });
             }
 
-            // Navigation
+            function listenToUserTeams(uid) {
+                const q = query(collection(db, 'teams'), where('ownerUid', '==', uid));
+                onSnapshot(q, (snapshot) => {
+                    userTeams = [];
+                    const teamsList = document.getElementById('user-teams-list');
+                    teamsList.innerHTML = '';
+
+                    snapshot.forEach((docSnap) => {
+                        const team = { id: docSnap.id, ...docSnap.data() };
+                        userTeams.push(team);
+
+                        const card = document.createElement('div');
+                        card.classList.add('gaming-card');
+                        card.innerHTML = `
+                            <h3>${team.teamName}</h3>
+                            <p><strong>Roster:</strong><br>
+                            1. ${team.players[0]?.name || '-'}<br>
+                            2. ${team.players[1]?.name || '-'}<br>
+                            3. ${team.players[2]?.name || '-'}<br>
+                            4. ${team.players[3]?.name || '-'}</p>
+                            <button class="action-card-btn" style="background:#c0392b;" onclick="deleteTeam('${team.id}')">DISBAND TEAM</button>
+                        `;
+                        teamsList.appendChild(card);
+                    });
+
+                    populateTeamDropdown();
+                });
+            }
+
+            function populateTeamDropdown() {
+                const select = document.getElementById('userTeamSelect');
+                select.innerHTML = '';
+                if (userTeams.length === 0) {
+                    select.innerHTML = '<option value="">No registered teams. Create one first!</option>';
+                } else {
+                    userTeams.forEach(t => {
+                        select.innerHTML += `<option value="${t.id}">${t.teamName}</option>`;
+                    });
+                }
+            }
+
+            function listenToUserTransactions(uid) {
+                const q = query(collection(db, 'walletTransactions'), where('uid', '==', uid));
+                onSnapshot(q, (snapshot) => {
+                    const tbody = document.getElementById('walletHistoryTable');
+                    tbody.innerHTML = '';
+
+                    if (snapshot.empty) {
+                        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No transactions found.</td></tr>';
+                        return;
+                    }
+
+                    snapshot.forEach((docSnap) => {
+                        const tx = docSnap.data();
+                        const tr = document.createElement('tr');
+                        const dateStr = tx.createdAt ? new Date(tx.createdAt).toLocaleDateString() : '-';
+                        const color = tx.type === 'credit' ? '#27ae60' : '#e74c3c';
+                        const sign = tx.type === 'credit' ? '+' : '-';
+
+                        tr.innerHTML = `
+                            <td>${dateStr}</td>
+                            <td style="color:${color}; font-weight:bold; text-transform:uppercase;">${tx.type}</td>
+                            <td style="color:${color}; font-weight:bold;">${sign}${tx.coins} Coins</td>
+                            <td>${tx.description || tx.requestId || 'N/A'}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+            }
+
+            function renderAllEntries() {
+                const scrimsList = document.getElementById('scrims-list');
+                const toursList = document.getElementById('tours-list');
+                const idsList = document.getElementById('ids-list');
+
+                scrimsList.innerHTML = '';
+                toursList.innerHTML = '';
+                idsList.innerHTML = '';
+
+                siteEntries.forEach(entry => {
+                    const bgClass = 'bg-' + (entry.status || 'upcoming').toLowerCase().replace(/\s+/g, '');
+                    const card = document.createElement('div');
+                    card.classList.add('gaming-card');
+
+                    if (entry.type === 'id') {
+                        card.innerHTML = `
+                            <span class="badge ${bgClass}">${entry.status}</span>
+                            <h3>${entry.title}</h3>
+                            <p>${entry.details}</p>
+                            <button class="action-card-btn">BUY ID</button>
+                            <div class="contact-info-box">
+                                <a href="https://wa.me/${ADMIN_ID_WA}" target="_blank" class="wa-btn">
+                                    <i class="fa-brands fa-whatsapp"></i> Contact ID Seller (+92 327 2475737)
+                                </a>
+                            </div>
+                        `;
+
+                        const buyBtn = card.querySelector('.action-card-btn');
+                        const contactBox = card.querySelector('.contact-info-box');
+                        buyBtn.addEventListener('click', () => {
+                            contactBox.style.display = contactBox.style.display === 'block' ? 'none' : 'block';
+                        });
+
+                        idsList.appendChild(card);
+                    } else {
+                        // Scrim or Tournament (WhatsApp removed per guidelines)
+                        const feeText = (entry.entryFee && entry.entryFee > 0) ? `🪙 ${entry.entryFee} Coins` : 'FREE ENTRY';
+                        const typeBadge = entry.tourType === 'Solo' ? 'SOLO' : 'TEAM';
+
+                        card.innerHTML = `
+                            <span class="badge ${bgClass}">${entry.status}</span>
+                            <div class="meta-tag"><i class="fa-solid fa-trophy" style="color:var(--primary);"></i> Format: ${typeBadge}</div>
+                            <div class="meta-tag"><i class="fa-solid fa-coins" style="color:#f1c40f;"></i> Entry: ${feeText}</div>
+                            <h3>${entry.title}</h3>
+                            <p>${entry.details}</p>
+                            <button class="action-card-btn">JOIN NOW</button>
+                        `;
+
+                        const joinBtn = card.querySelector('.action-card-btn');
+                        joinBtn.addEventListener('click', () => openJoinModal(entry));
+
+                        if (entry.type === 'scrim') scrimsList.appendChild(card);
+                        else if (entry.type === 'tour') toursList.appendChild(card);
+                    }
+                });
+            }
+
+            // Coin Calculator
+            const coinInput = document.getElementById('coinAmountInput');
+            const pkrText = document.getElementById('calculatedPkrText');
+            coinInput.addEventListener('input', () => {
+                const coins = parseInt(coinInput.value) || 0;
+                pkrText.innerText = `${coins} PKR`;
+            });
+
+            // Coin Request Submit
+            document.getElementById('coinRequestForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentUser) { alert('Please login first.'); return; }
+
+                const coins = parseInt(coinInput.value);
+                if (!coins || coins < 1) { alert('Enter a valid amount.'); return; }
+
+                try {
+                    const reqRef = await addDoc(collection(db, 'coinRequests'), {
+                        uid: currentUser.uid,
+                        gmail: currentUser.email,
+                        requestedCoins: coins,
+                        amountPKR: coins,
+                        status: 'pending',
+                        createdAt: new Date().toISOString()
+                    });
+
+                    const waMsg = encodeURIComponent(
+                        `Payment Screenshot Verification\n` +
+                        `Google Gmail: ${currentUser.email}\n` +
+                        `Coins Requested: ${coins}\n` +
+                        `Amount Paid: ${coins} PKR\n` +
+                        `Request ID: ${reqRef.id}`
+                    );
+
+                    window.open(`https://wa.me/${ADMIN_PAYMENT_WA}?text=${waMsg}`, '_blank');
+                    coinInput.value = '';
+                    pkrText.innerText = '0 PKR';
+                    alert('Payment request registered! Please send your payment screenshot on WhatsApp to complete verification.');
+                } catch (err) {
+                    console.error("Coin request error:", err);
+                    alert("Failed to submit request.");
+                }
+            });
+
+            // Create Team Form
+            document.getElementById('openCreateTeamBtn').addEventListener('click', () => {
+                document.getElementById('createTeamModal').style.display = 'flex';
+            });
+            document.getElementById('closeTeamModal').addEventListener('click', () => {
+                document.getElementById('createTeamModal').style.display = 'none';
+            });
+
+            document.getElementById('teamForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentUser) return;
+
+                const name = document.getElementById('teamNameInput').value.trim();
+                const p1 = document.getElementById('p1Input').value.trim();
+                const p2 = document.getElementById('p2Input').value.trim();
+                const p3 = document.getElementById('p3Input').value.trim();
+                const p4 = document.getElementById('p4Input').value.trim();
+
+                try {
+                    await addDoc(collection(db, 'teams'), {
+                        teamName: name,
+                        ownerUid: currentUser.uid,
+                        ownerEmail: currentUser.email,
+                        players: [
+                            { name: p1 }, { name: p2 }, { name: p3 }, { name: p4 }
+                        ],
+                        createdAt: new Date().toISOString()
+                    });
+
+                    document.getElementById('teamForm').reset();
+                    document.getElementById('createTeamModal').style.display = 'none';
+                    alert('Team registered successfully!');
+                } catch (err) {
+                    console.error("Error creating team:", err);
+                    alert('Failed to save team.');
+                }
+            });
+
+            window.deleteTeam = async (teamId) => {
+                if (confirm('Disband this team?')) {
+                    await deleteDoc(doc(db, 'teams', teamId));
+                }
+            };
+
+            // Join Event Logic
+            function openJoinModal(entry) {
+                if (!currentUser) { alert('Please sign in to join events.'); return; }
+
+                document.getElementById('joinEventId').value = entry.id;
+                document.getElementById('joinModalTitle').innerText = `JOIN: ${entry.title.toUpperCase()}`;
+                const fee = entry.entryFee || 0;
+                document.getElementById('joinModalFeeText').innerText = `Entry Fee: ${fee} Coins (Your Balance: ${currentUserDoc?.coins || 0} Coins)`;
+
+                if (entry.tourType === 'Solo') {
+                    document.getElementById('teamSelectContainer').style.display = 'none';
+                    document.getElementById('soloGameIdContainer').style.display = 'block';
+                } else {
+                    document.getElementById('teamSelectContainer').style.display = 'block';
+                    document.getElementById('soloGameIdContainer').style.display = 'none';
+                }
+
+                document.getElementById('joinEventModal').style.display = 'flex';
+            }
+
+            document.getElementById('closeJoinModal').addEventListener('click', () => {
+                document.getElementById('joinEventModal').style.display = 'none';
+            });
+
+            document.getElementById('joinEventForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const eventId = document.getElementById('joinEventId').value;
+                const entry = siteEntries.find(e => e.id === eventId);
+                if (!entry) return;
+
+                const entryFee = entry.entryFee || 0;
+                const isSolo = entry.tourType === 'Solo';
+
+                let teamData = null;
+                let soloGameId = '';
+
+                if (isSolo) {
+                    soloGameId = document.getElementById('soloGameIdInput').value.trim();
+                    if (!soloGameId) { alert('Please enter your Free Fire/Game ID'); return; }
+                } else {
+                    const selectedTeamId = document.getElementById('userTeamSelect').value;
+                    if (!selectedTeamId) { alert('Please select a team.'); return; }
+                    teamData = userTeams.find(t => t.id === selectedTeamId);
+                    if (!teamData) { alert('Invalid team selected.'); return; }
+                }
+
+                try {
+                    await runTransaction(db, async (transaction) => {
+                        // Check user coins
+                        const userRef = doc(db, 'users', currentUser.uid);
+                        const userSnap = await transaction.get(userRef);
+                        const userCoins = userSnap.data().coins || 0;
+
+                        if (userCoins < entryFee) {
+                            throw new Error('Insufficient coins in wallet.');
+                        }
+
+                        // Check duplicate registration
+                        const regQuery = query(
+                            collection(db, 'registrations'), 
+                            where('entryId', '==', eventId),
+                            where(isSolo ? 'uid' : 'teamId', '==', isSolo ? currentUser.uid : teamData.id)
+                        );
+                        
+                        // Deduct coins
+                        if (entryFee > 0) {
+                            transaction.update(userRef, { coins: userCoins - entryFee });
+
+                            // Wallet Transaction
+                            const txRef = doc(collection(db, 'walletTransactions'));
+                            transaction.set(txRef, {
+                                uid: currentUser.uid,
+                                type: 'entry_fee',
+                                coins: entryFee,
+                                amount: entryFee,
+                                description: `Entry Fee: ${entry.title}`,
+                                createdAt: new Date().toISOString()
+                            });
+                        }
+
+                        // Save Registration
+                        const regRef = doc(collection(db, 'registrations'));
+                        transaction.set(regRef, {
+                            entryId: eventId,
+                            eventTitle: entry.title,
+                            uid: currentUser.uid,
+                            gmail: currentUser.email,
+                            tourType: entry.tourType || 'Team',
+                            teamId: teamData ? teamData.id : null,
+                            teamName: teamData ? teamData.teamName : null,
+                            players: teamData ? teamData.players : null,
+                            gameId: soloGameId || null,
+                            createdAt: new Date().toISOString()
+                        });
+                    });
+
+                    document.getElementById('joinEventModal').style.display = 'none';
+                    alert('Successfully registered for event!');
+                } catch (err) {
+                    console.error("Join error:", err);
+                    alert(err.message || 'Registration failed.');
+                }
+            });
+
+            // Admin Authentication Login
+            document.getElementById('loginBtn').addEventListener('click', () => {
+                const pass = document.getElementById('adminPass').value;
+                if (pass === "admin000" && currentUserDoc?.isAdmin) {
+                    document.getElementById('admin-login-screen').style.display = 'none';
+                    document.getElementById('admin-dashboard-screen').style.display = 'block';
+                    loadAdminDashboardData();
+                } else {
+                    document.getElementById('adminError').style.display = 'block';
+                }
+            });
+
+            function loadAdminDashboardData() {
+                // Pending Coin Requests
+                onSnapshot(query(collection(db, 'coinRequests'), where('status', '==', 'pending')), (snapshot) => {
+                    const tbody = document.getElementById('adminCoinRequestsTable');
+                    tbody.innerHTML = '';
+                    if (snapshot.empty) {
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No pending payment requests.</td></tr>';
+                        return;
+                    }
+
+                    snapshot.forEach((docSnap) => {
+                        const req = { id: docSnap.id, ...docSnap.data() };
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${req.gmail}</td>
+                            <td>${req.requestedCoins} Coins</td>
+                            <td>${req.amountPKR} PKR</td>
+                            <td>${new Date(req.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <button style="background:#27ae60; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;" onclick="approveCoinRequest('${req.id}')">APPROVE</button>
+                                <button style="background:#c0392b; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; margin-left:5px;" onclick="rejectCoinRequest('${req.id}')">REJECT</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+
+                // Registrations
+                onSnapshot(collection(db, 'registrations'), (snapshot) => {
+                    const tbody = document.getElementById('adminRegistrationsTable');
+                    tbody.innerHTML = '';
+                    snapshot.forEach((docSnap) => {
+                        const reg = docSnap.data();
+                        const tr = document.createElement('tr');
+                        let rosterStr = reg.gameId || (reg.players ? reg.players.map(p => p.name).join(', ') : '-');
+
+                        tr.innerHTML = `
+                            <td>${reg.eventTitle}</td>
+                            <td>${reg.tourType}</td>
+                            <td>${reg.teamName || 'Solo Player'}</td>
+                            <td>${reg.gmail}</td>
+                            <td>${rosterStr}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+            }
+
+            window.approveCoinRequest = async (requestId) => {
+                try {
+                    await runTransaction(db, async (transaction) => {
+                        const reqRef = doc(db, 'coinRequests', requestId);
+                        const reqSnap = await transaction.get(reqRef);
+
+                        if (!reqSnap.exists()) throw new Error("Request does not exist.");
+                        const reqData = reqSnap.data();
+                        if (reqData.status !== 'pending') throw new Error("Request already processed.");
+
+                        const userRef = doc(db, 'users', reqData.uid);
+                        const userSnap = await transaction.get(userRef);
+                        const currentCoins = userSnap.exists() ? (userSnap.data().coins || 0) : 0;
+
+                        // Approve request
+                        transaction.update(reqRef, { status: 'approved', approvedBy: currentUser.email });
+
+                        // Add Coins
+                        transaction.update(userRef, { coins: currentCoins + reqData.requestedCoins });
+
+                        // Record Audit Transaction
+                        const txRef = doc(collection(db, 'walletTransactions'));
+                        transaction.set(txRef, {
+                            uid: reqData.uid,
+                            type: 'credit',
+                            coins: reqData.requestedCoins,
+                            amount: reqData.amountPKR,
+                            requestId: requestId,
+                            approvedBy: currentUser.email,
+                            createdAt: new Date().toISOString(),
+                            description: 'JazzCash Coin Purchase Approved'
+                        });
+                    });
+
+                    alert('Payment approved! Coins credited successfully.');
+                } catch (err) {
+                    console.error("Approve error:", err);
+                    alert("Approval failed: " + err.message);
+                }
+            };
+
+            window.rejectCoinRequest = async (requestId) => {
+                if (confirm('Reject this payment request?')) {
+                    await updateDoc(doc(db, 'coinRequests', requestId), {
+                        status: 'rejected',
+                        rejectedBy: currentUser.email
+                    });
+                }
+            };
+
+            // Admin Event Publish
+            document.getElementById('publishEventBtn').addEventListener('click', async () => {
+                const title = document.getElementById('eventTitle').value.trim();
+                const category = document.getElementById('eventCategory').value;
+                const tourType = document.getElementById('eventTourType').value;
+                const entryFee = parseInt(document.getElementById('eventEntryFee').value) || 0;
+                const prize = document.getElementById('eventPrize').value.trim();
+                const details = document.getElementById('eventDetails').value.trim();
+                const status = document.getElementById('eventStatus').value;
+
+                if (!title || !details) { alert('Fill in required fields.'); return; }
+
+                await addDoc(collection(db, 'entries'), {
+                    title, type: category, tourType, entryFee, prizePool: prize, details, status, createdAt: new Date().toISOString()
+                });
+
+                alert('Event published successfully!');
+            });
+
+            // Navigation Handler
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('.page-section');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -1084,7 +1577,6 @@
                 });
             });
 
-            // Added Animation Logic into User UI Updater
             window.updateUserUI = function(user, isLoginAction = false, isInitialLoad = false) {
                 const authBox = document.getElementById('authBox');
                 const userProfileCard = document.getElementById('userProfileCard');
@@ -1100,154 +1592,56 @@
                     document.getElementById('profileEmailCard').innerText = user.email;
                     document.getElementById('profilePic').src = user.photoURL || 'https://via.placeholder.com/100';
 
-                    // If user JUST clicked login, show animation
                     if (isLoginAction) {
-                        document.querySelectorAll('.page-section').forEach(sec => {
-                            sec.style.display = 'none';
-                            sec.classList.remove('active');
-                        });
-                        
+                        sections.forEach(sec => { sec.style.display = 'none'; sec.classList.remove('active'); });
                         const loginAnim = document.getElementById('login-animation');
-                        const welcomeText = document.getElementById('login-welcome-text');
-                        welcomeText.innerText = `WELCOME, ${user.displayName ? user.displayName.toUpperCase() : 'PLAYER'}`;
-                        loginAnim.style.display = 'flex'; // Trigger animation
-                        
+                        document.getElementById('login-welcome-text').innerText = `WELCOME, ${user.displayName ? user.displayName.toUpperCase() : 'PLAYER'}`;
+                        loginAnim.style.display = 'flex';
                         setTimeout(() => {
-                            loginAnim.style.display = 'none'; // Hide animation
+                            loginAnim.style.display = 'none';
                             const intro = document.getElementById('intro');
                             intro.style.display = 'flex';
                             setTimeout(() => { intro.classList.add('active'); }, 10);
-                        }, 2500); // 2.5 Seconds Delay
-
+                        }, 2000);
                     } else if (isInitialLoad) {
-                        // Normal page load for already logged-in users
-                        document.querySelectorAll('.page-section').forEach(sec => {
-                            sec.style.display = 'none';
-                            sec.classList.remove('active');
-                        });
                         const intro = document.getElementById('intro');
                         intro.style.display = 'flex';
                         setTimeout(() => { intro.classList.add('active'); }, 10);
                     }
-
                 } else {
                     document.body.classList.remove('logged-in');
                     headerProfileIcon.style.display = 'none';
                     authBox.style.display = 'block';
                     userProfileCard.style.display = 'none';
 
-                    document.querySelectorAll('.page-section').forEach(sec => {
-                        sec.style.display = 'none';
-                        sec.classList.remove('active');
-                    });
+                    sections.forEach(sec => { sec.style.display = 'none'; sec.classList.remove('active'); });
                     const authSec = document.getElementById('user-auth');
                     authSec.style.display = 'flex';
                     setTimeout(() => { authSec.classList.add('active'); }, 10);
                 }
-            }
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) { updateUserUI(user, false, true); } 
-                else { updateUserUI(null, false, true); }
-            });
+            };
 
             document.getElementById('googleSignInBtn').addEventListener('click', () => {
-                signInWithPopup(auth, provider)
-                    .then((result) => {
-                        const user = result.user;
-                        updateUserUI(user, true, false); // Triggers animation flag
-                    }).catch((error) => {
-                        console.error("Sign-in Error:", error);
-                    });
+                signInWithPopup(auth, provider).then((result) => {
+                    updateUserUI(result.user, true, false);
+                });
             });
 
             document.getElementById('userLogoutBtn').addEventListener('click', () => {
-                signOut(auth).then(() => {
-                    updateUserUI(null, false, false);
-                }).catch((error) => {
-                    console.error("Sign-out Error:", error);
-                });
+                signOut(auth).then(() => { updateUserUI(null, false, false); });
             });
 
-            const profileModal = document.getElementById('profileModal');
-            const closeProfileModal = document.getElementById('closeProfileModal');
-            const headerProfileIcon = document.getElementById('headerProfileIcon');
-
-            headerProfileIcon.addEventListener('click', () => {
-                const user = auth.currentUser;
-                if (user) {
-                    document.getElementById('modalName').innerText = user.displayName || 'Player';
-                    document.getElementById('modalEmail').innerText = user.email;
-                    document.getElementById('modalProfileImg').src = user.photoURL || 'https://via.placeholder.com/100';
-                    profileModal.style.display = 'flex';
+            // Header Profile Modal
+            document.getElementById('headerProfileIcon').addEventListener('click', () => {
+                if (currentUser) {
+                    document.getElementById('modalName').innerText = currentUser.displayName || 'Player';
+                    document.getElementById('modalEmail').innerText = currentUser.email;
+                    document.getElementById('modalProfileImg').src = currentUser.photoURL || 'https://via.placeholder.com/100';
+                    document.getElementById('profileModal').style.display = 'flex';
                 }
             });
-
-            closeProfileModal.addEventListener('click', () => { profileModal.style.display = 'none'; });
-            window.addEventListener('click', e => { if (e.target === profileModal) profileModal.style.display = 'none'; });
-
-            const loginBtn = document.getElementById('loginBtn');
-            const actionBtns = document.querySelectorAll('.action-btn');
-            const updateInfoBtn = document.getElementById('updateInfoBtn');
-
-            loginBtn.addEventListener('click', () => {
-                const pass = document.getElementById('adminPass').value;
-                if (pass === "admin000") {
-                    document.getElementById('admin-login-screen').style.display = 'none';
-                    document.getElementById('admin-dashboard-screen').style.display = 'block';
-                    document.body.classList.add('admin-logged-in');
-                } else {
-                    document.getElementById('adminError').style.display = 'block';
-                }
-            });
-
-            actionBtns.forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const type = btn.getAttribute('data-type');
-                    let titleId, detailsId, statusId;
-                    if (type === 'scrim') { titleId = 'scrimTitle'; detailsId = 'scrimDetails'; statusId = 'scrimStatus'; } 
-                    else if (type === 'tour') { titleId = 'tourTitle'; detailsId = 'tourDetails'; statusId = 'tourStatus'; } 
-                    else if (type === 'id') { titleId = 'idTitle'; detailsId = 'idDetails'; statusId = 'idStatus'; }
-
-                    const title = document.getElementById(titleId).value.trim();
-                    const details = document.getElementById(detailsId).value.trim();
-                    const status = document.getElementById(statusId).value;
-
-                    if (title === "" || details === "") { alert("Error: Please fill in all fields!"); return; }
-                    
-                    const newEntry = { type: type, title: title, details: details, status: status };
-
-                    try {
-                        await addDoc(collection(db, 'entries'), newEntry);
-                        document.getElementById(titleId).value = '';
-                        document.getElementById(detailsId).value = '';
-                        alert("Success! Entry saved to database and published.");
-                    } catch (error) {
-                        console.error("Error publishing entry:", error);
-                        alert("Failed to publish entry.");
-                    }
-                });
-            });
-
-            updateInfoBtn.addEventListener('click', () => {
-                const newInfo = document.getElementById('infoText').value;
-                if (newInfo === "") { alert("Error: Enter text first."); return; }
-                document.getElementById('site-info').innerText = newInfo;
-                document.getElementById('infoText').value = '';
-                alert("Success: Support Information Updated!");
-            });
-
-            // NEW: Listener for Dynamic WhatsApp Number Update
-            document.getElementById('updateWABtn').addEventListener('click', () => {
-                const newNum = document.getElementById('waNumberInput').value.trim();
-                if(newNum === "") { alert("Error: Enter a valid number!"); return; }
-                
-                globalWhatsAppNumber = newNum; // Update the variable
-                document.getElementById('waNumberInput').value = '';
-                
-                // Re-render the cards immediately to apply the new link
-                renderAllEntries(); 
-                alert("Success: WhatsApp Number Updated! The JOIN/BUY buttons will now redirect to the new number.");
+            document.getElementById('closeProfileModal').addEventListener('click', () => {
+                document.getElementById('profileModal').style.display = 'none';
             });
 
             // Background Canvas
@@ -1259,7 +1653,7 @@
                 width = canvas.width = window.innerWidth;
                 height = canvas.height = window.innerHeight;
                 particles = [];
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 40; i++) {
                     particles.push({
                         x: Math.random() * width,
                         y: Math.random() * height,
@@ -1272,21 +1666,18 @@
 
             function animateCanvas() {
                 ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = 'rgba(255, 87, 34, 0.5)';
+                ctx.fillStyle = 'rgba(255, 87, 34, 0.4)';
                 particles.forEach(p => {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
-                    p.x += p.speedX;
-                    p.y += p.speedY;
+                    p.x += p.speedX; p.y += p.speedY;
                     if (p.x < 0 || p.x > width) p.speedX *= -1;
                     if (p.y < 0 || p.y > height) p.speedY *= -1;
                 });
                 requestAnimationFrame(animateCanvas);
             }
-
-            initCanvas();
-            animateCanvas();
+            initCanvas(); animateCanvas();
             window.addEventListener('resize', initCanvas);
         });
     </script>
